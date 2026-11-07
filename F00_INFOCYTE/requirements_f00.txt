@@ -1,1 +1,1 @@
-# F00 INFOCYTE — aucune dependance tant que CODEBASE est vide.
+# F00 INFOCYTE — stdlib only (html, re, json, pathlib). pytest/jsonschema live in requirements_test.txt.

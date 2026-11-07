@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : PHASE-01 harness **done**. Aucun parseur. Prochaine = PHASE-02 (PredictLix) puis STOP.
+**Etat** : PHASE-02 PredictLix **done**. Un site, fixture HTML locale, `schema_slate.json`. Prochaine = PHASE-03 (DailySportPick) puis STOP.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
@@ -20,18 +20,20 @@
 - Arbre des frégates (`F00` → `F05`, `TARIEL`, `PA`, `SHARED`)
 - Doctrine : `README.md`, `VERBUM.md`, `HERESIE.md`
 - Contrats JSON (schemas) dans `CONTRACTS/`
-- Journaux vides dans `TRACKING/` et chaque `Fxx/TRACKING/`
-- Whitelist sources (intention) dans `ARCHIVUM/rules/whitelist_sources.md`
+- Journaux dans `TRACKING/` et chaque `Fxx/TRACKING/`
+- Whitelist sources dans `ARCHIVUM/rules/whitelist_sources.md`
 - `TODO.md` : chantier priorise
 - `GUIDE_UTILISATION.md` : ce que l'operateur fera sur PythonAnywhere
 - Guides `docs/01` a `docs/05`
 - `VANUS_CUSTOS.py` (seul a ecrire `liber_vanus.json`)
-- `pytest` + fixtures JSON golden (`tests/`)
-- `liber_vanus.json` status `phase_01_harness`
+- `pytest` + fixtures JSON golden + HTML PredictLix (`tests/`)
+- `F00_INFOCYTE/CODEBASE/predictlix.py` + `run.py` (HTML fichier → slate)
+- `liber_vanus.json` status `phase_02_predictlix`
 
 ## 2. CE QUI N'EXISTE PAS (volontaire)
 
-- Aucun parseur HTML
+- Aucun parseur DailySportPick / MetaPred / FootInsights / BeSoccer
+- Aucun GET reseau dans F00 (PHASE-02 = fixture locale)
 - Aucun `tariel.py` / `pa_task.py` / `pa_web.py`
 - Aucune dependance pip metier (hors pytest/jsonschema)
 - Aucun secret, aucun jeton
@@ -51,12 +53,12 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-PHASE-02 — F00 PredictLix. Fixture HTML locale, un site, `schema_slate.json`. Puis STOP. Pas DSP.
+PHASE-03 — F00 DailySportPick. Meme patron que PredictLix. Fixture HTML locale, OUT separe par `index`. Puis STOP. Pas MetaPred.
 
 Ordre impose, une frégate a la fois :
 
 1. `CONTRACTS/` — ne plus les bouger sans version
-2. F00 INFOCYTE — un site (PredictLix) puis les autres
+2. F00 INFOCYTE — PredictLix **fait**. Ensuite DSP, MetaPred, FootInsights, BeSoccer + runner
 3. F01 SCRYER — cle composite ligue + horaire + noms
 4. F02 MNEMOS — snapshot SQLite / fichiers
 5. F03 SPECULUM — evolution + bandeau consensus

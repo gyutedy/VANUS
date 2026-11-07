@@ -4,7 +4,7 @@ Lecture de pages **publiques** seulement. Liste fermee. Pas de spider.
 
 | Index | Intention | Note |
 |---|---|---|
-| PredictLix | slate du jour par competition | HTML serveur |
+| PredictLix | slate du jour par competition | HTML serveur. PHASE-02 : fixture `tests/fixtures/html/predictlix_la_liga.html` (La Liga). Chemin whitelist : `/predictions/spain/la-liga/`. |
 | DailySportPick | pronos du jour | HTML serveur |
 | MetaPred | matchs du jour | HTML serveur |
 | FootInsights | blog + tips | HTML serveur |

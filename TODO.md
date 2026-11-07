@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. Rien de ceci n'est commence (docs only, 2026-11-07).
+Priorise. PHASE-02 PredictLix done (2026-11-07).
 
 ---
 
@@ -18,7 +18,7 @@ Priorise. Rien de ceci n'est commence (docs only, 2026-11-07).
 Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 
 - [x] PHASE-01 Harness
-- [ ] PHASE-02 F00 PredictLix
+- [x] PHASE-02 F00 PredictLix
 - [ ] PHASE-03 F00 DailySportPick
 - [ ] PHASE-04 F00 MetaPred
 - [ ] PHASE-05 F00 FootInsights
@@ -34,8 +34,8 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 
 ## P1 — F00 INFOCYTE (PHASE-02 a 06)
 
-- [ ] Contrat `schema_slate.json` respecte par un premier parseur
-- [ ] PredictLix : page today, par competition, unite = match
+- [x] Contrat `schema_slate.json` respecte par un premier parseur
+- [x] PredictLix : page today, par competition, unite = match (fixture locale)
 - [ ] DailySportPick, MetaPred, FootInsights (blog + tips)
 - [ ] BeSoccer : tentative GET honnete ; 406 = skip, log, pas de retry deguise
 - [ ] Delai inter-sites, User-Agent clair, robots.txt

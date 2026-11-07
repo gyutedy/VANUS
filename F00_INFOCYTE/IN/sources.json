@@ -9,6 +9,8 @@
     { "id": "footinsights", "enabled": true },
     { "id": "besoccer", "enabled": true, "skip_on": [406] }
   ],
-  "competitions": [],
-  "note": "Liste des ligues a remplir avant le premier poll. Pas d'URL hors whitelist."
+  "competitions": [
+    { "id": "la-liga", "name": "La Liga", "path": "/predictions/spain/la-liga/", "index": "predictlix" }
+  ],
+  "note": "Ligues vues dans la fixture PHASE-02. Pas d'URL hors whitelist."
 }
