@@ -6,10 +6,17 @@ import json
 import sys
 from pathlib import Path
 
-from predictlix import parse_html
+from dailysportpick import parse_html as parse_dsp
+from dailysportpick import parse_slates as parse_dsp_slates
+from predictlix import parse_html as parse_plx
 
 FRIGATE = Path(__file__).resolve().parents[1]
 OUT_DIR = FRIGATE / "OUT"
+
+PARSERS = {
+    "predictlix": parse_plx,
+    "dailysportpick": parse_dsp,
+}
 
 
 def load_html(path: Path) -> str:
@@ -35,8 +42,9 @@ def _file_slug(text: str) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="F00 PredictLix — HTML local → schema_slate.json")
-    parser.add_argument("--html", required=True, help="chemin vers une fixture HTML PredictLix")
+    parser = argparse.ArgumentParser(description="F00 — HTML local → schema_slate.json")
+    parser.add_argument("--html", required=True, help="chemin vers une fixture HTML")
+    parser.add_argument("--index", default=None, help="predictlix | dailysportpick")
     parser.add_argument("--out", default=str(OUT_DIR), help="dossier OUT")
     parser.add_argument("--competition", default=None)
     parser.add_argument("--slate-date", default=None)
@@ -47,15 +55,45 @@ def main(argv: list[str] | None = None) -> int:
     if not html_path.is_file():
         print(f"missing html: {html_path}", file=sys.stderr)
         return 2
-    slate = parse_html(
-        load_html(html_path),
+    index = (args.index or _guess_index(html_path.name)).lower()
+    if index not in PARSERS:
+        print(f"unknown index: {index}", file=sys.stderr)
+        return 2
+    html = load_html(html_path)
+    out_dir = Path(args.out)
+    if index == "dailysportpick" and not args.competition:
+        written = []
+        for slate in parse_dsp_slates(
+            html,
+            slate_date=args.slate_date,
+            source_url=args.source_url,
+        ):
+            written.append(write_slate(slate, out_dir))
+        if not written:
+            empty = parse_dsp(
+                html,
+                slate_date=args.slate_date,
+                source_url=args.source_url,
+            )
+            written.append(write_slate(empty, out_dir))
+        print("\n".join(str(p) for p in written))
+        return 0
+    slate = PARSERS[index](
+        html,
         competition=args.competition,
         slate_date=args.slate_date,
         source_url=args.source_url,
     )
-    target = write_slate(slate, Path(args.out))
+    target = write_slate(slate, out_dir)
     print(target)
     return 0
+
+
+def _guess_index(name: str) -> str:
+    lower = name.lower()
+    if "dailysportpick" in lower or lower.startswith("dsp"):
+        return "dailysportpick"
+    return "predictlix"
 
 
 if __name__ == "__main__":

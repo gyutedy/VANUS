@@ -9,3 +9,10 @@
 - UA clair : `VANUS/0.1 (+https://github.com/gyutedy/VANUS; read-only public pages)`.
 - Ligues vues dans la fixture : La Liga (`/predictions/spain/la-liga/`).
 - Pas DSP, pas MetaPred, pas runner multi-index.
+
+2026-11-07 — PHASE-03 DailySportPick.
+- `CODEBASE/dailysportpick.py` : parse HTML public (fixture locale) → `vanus.slate.v1`, un slate par competition.
+- `run.py` : `--index dailysportpick` ecrit `slate_dailysportpick_<comp>_<date>.json`.
+- Unite = match. Pick/cotes absents → `null` / `{}`. Extra cards inclus.
+- Ligues vues dans la fixture : La Liga, Premier League, Serie A. Chemin whitelist : `https://dailysportpick.com/fr/`.
+- Pas MetaPred, pas FootInsights, pas runner multi-index.
