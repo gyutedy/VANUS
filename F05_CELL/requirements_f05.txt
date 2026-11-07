@@ -1,1 +1,1 @@
-# F05 CELL — aucune dependance tant que CODEBASE est vide.
+# F05 CELL — stdlib only (http.server, json, html).

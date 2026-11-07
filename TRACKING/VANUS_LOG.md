@@ -18,4 +18,5 @@
 - PHASE-08 : F02 snapshots + export. `mnemos.py` + `run.py`. 2 polls → 2 points. Export JSON/CSV relit sans re-fetch. Pas blogs.
 - PHASE-09 : F02 blogs. `blogs.py`. 1er run `new` ; identique `unchanged` ; contenu change `updated`. Pas miroir public. Pas F03.
 - PHASE-10 : F03 evolution + alertes. `speculum.py` + `run.py`. 3 horodatages → 3 points. 2/3 = alarm. 1/3 = rien. Fingerprint. Pinnacle absent ≠ desaccord. Pas CELL.
-- Prochaine session : PHASE-11 F05 CELL.
+- PHASE-11 : F05 CELL menus + popup. `cell.py` + `run.py`. Lit OUT/ARCHIVUM. Popup 1 match, accordéons, tiroir vide = pas trouve. Zero fetch sortant. Pas CIPHER.
+- Prochaine session : PHASE-12 F04 CIPHER.

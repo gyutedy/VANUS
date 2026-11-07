@@ -1,7 +1,7 @@
 {
   "contract": "vanus.liber.v1",
   "fleet": "VANUS",
-  "status": "phase_10_speculum",
+  "status": "phase_11_cell",
   "opened_at": "2026-11-07",
   "frigates": {
     "F00_INFOCYTE": "besoccer",
@@ -9,7 +9,7 @@
     "F02_MNEMOS": "blogs",
     "F03_SPECULUM": "speculum",
     "F04_CIPHER": "empty",
-    "F05_CELL": "empty",
+    "F05_CELL": "cell",
     "TARIEL": "empty"
   },
   "runtime": "pythonanywhere",

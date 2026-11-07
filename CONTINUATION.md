@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : PHASE-10 F03 evolution + alertes **done**. Timeline une vue N lignes. 2 sources = alarm ; toutes = jackpot ; absent ≠ vote ; fingerprint. Prochaine = PHASE-11 (F05 CELL) puis STOP.
+**Etat** : PHASE-11 F05 CELL menus + popup **done**. Lit seulement OUT/ARCHIVUM. Popup = 1 match, accordéons. Tiroir vide = « pas trouve ». Prochaine = PHASE-12 (F04 CIPHER) puis STOP.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
@@ -31,13 +31,14 @@
 - `F01_SCRYER/CODEBASE/scryer.py` + `run.py` (cle composite, aliases.json auto, fuzzy seuil 0.90)
 - `F02_MNEMOS/CODEBASE/mnemos.py` + `blogs.py` + `run.py` (snapshots, export JSON/CSV, copie blogs)
 - `F03_SPECULUM/CODEBASE/speculum.py` + `run.py` (evolution + alertes, fingerprint)
-- `liber_vanus.json` status `phase_10_speculum`
+- `F05_CELL/CODEBASE/cell.py` + `run.py` (menus index/competition, popup accordéons)
+- `liber_vanus.json` status `phase_11_cell`
 
 ## 2. CE QUI N'EXISTE PAS (volontaire)
 
 - Aucun GET reseau dans les tests (fixtures locales ; 406 mocke)
 - Aucun parseur hors F00
-- Aucun CELL / CIPHER / TARIEL
+- Aucun CIPHER / TARIEL
 - Aucun `tariel.py` / `pa_task.py` / `pa_web.py`
 - Aucune dependance pip metier (hors pytest/jsonschema)
 - Aucun secret, aucun jeton
@@ -57,7 +58,7 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-PHASE-11 — F05 CELL menus + popup. Lit seulement OUT/ARCHIVUM. Popup = 1 match, accordéons. Tiroir vide = « pas trouve ». Puis STOP.
+PHASE-12 — F04 CIPHER Telegram. Consomme `schema_alert.json`. Token env hote, jamais git. Idempotence fingerprint. Puis STOP.
 
 Ordre impose, une frégate a la fois :
 
@@ -66,7 +67,7 @@ Ordre impose, une frégate a la fois :
 3. F01 SCRYER — **fait** (cle composite, alias auto, tiroir vide)
 4. F02 MNEMOS — **fait** (snapshots + export + blogs)
 5. F03 SPECULUM — **fait** (evolution + alertes)
-6. F05 CELL — preview lisible
+6. F05 CELL — **fait** (menus + popup, lit OUT seulement)
 7. F04 CIPHER — Telegram
 8. TARIEL + `PA/` — coller sur PythonAnywhere
 

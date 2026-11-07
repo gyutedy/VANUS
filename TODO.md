@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-10 F03 evolution + alertes done (2026-11-07).
+Priorise. PHASE-11 F05 CELL menus + popup done (2026-11-07).
 
 ---
 
@@ -27,7 +27,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-08 F02 snapshots + export
 - [x] PHASE-09 F02 blogs
 - [x] PHASE-10 F03 evolution + alertes
-- [ ] PHASE-11 F05 CELL
+- [x] PHASE-11 F05 CELL
 - [ ] PHASE-12 F04 CIPHER
 - [ ] PHASE-13 TARIEL + PA
 - [ ] PHASE-14 E2E + CI pytest
@@ -65,9 +65,9 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 
 ## P5 — F05 CELL puis F04 CIPHER
 
-- [ ] Menus index + competition
-- [ ] Popup un match, accordéons
-- [ ] Tiroir evolution collectif
+- [x] Menus index + competition
+- [x] Popup un match, accordéons
+- [x] Tiroir evolution collectif
 - [ ] Telegram : alarme / jackpot, pas de rejeu du meme mouvement
 
 ## P6 — TARIEL + PA
