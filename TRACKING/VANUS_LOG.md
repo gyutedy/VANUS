@@ -23,3 +23,4 @@
 - PHASE-13 : TARIEL + PA. `tariel.py` + `gates.py`. Horloge fake, 2 ticks → F00 puis F01… OUT. TARIEL sans HTML. `pa_task` une passe. `pa_web` GET `/`. Pas E2E.
 - PHASE-14 : E2E flotte + CI. HTML → slates → matchs → snapshots → evolution/alert → CELL HTML + CIPHER mock. Workflow GitHub pytest only. `harness_ready`.
 - 14 phases closes. Flotte testable hors PA.
+- F00 Vitibet : `vitibet.py` + whitelist GET quicktips today. Un slate par ligue. INDEX + 1/X/2 publics. Pas de spider.

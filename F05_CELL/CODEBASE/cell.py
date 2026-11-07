@@ -15,6 +15,7 @@ INDEX_ORDER = (
     "metapred",
     "footinsights",
     "besoccer",
+    "vitibet",
 )
 INDEX_LABELS = {
     "predictlix": "PredictLix",
@@ -22,6 +23,7 @@ INDEX_LABELS = {
     "metapred": "MetaPred",
     "footinsights": "FootInsights",
     "besoccer": "BeSoccer",
+    "vitibet": "Vitibet",
     "pinnacle": "Pinnacle",
 }
 EMPTY = "pas trouve"

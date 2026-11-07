@@ -15,6 +15,7 @@ INDEX_ORDER = (
     "metapred",
     "footinsights",
     "besoccer",
+    "vitibet",
 )
 
 _NON_ALNUM = re.compile(r"[^a-z0-9]+")

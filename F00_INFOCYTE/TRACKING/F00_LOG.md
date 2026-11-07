@@ -48,3 +48,9 @@
 2026-11-07 — FootInsights toutes dates + tips publics.
 - `parse_slates` lit chaque `section#day-YYYY-MM-DD` de `/predictions/`.
 - JSON `data-unlock` deja dans le HTML public → pick/cote. Pas de login. Locked sans JSON = pick null.
+
+2026-11-07 — Vitibet index F00.
+- `CODEBASE/vitibet.py` : parse HTML public (fixture locale) → `vanus.slate.v1`, un slate par ligue.
+- Un GET `https://www.vitibet.com/index.php?clanek=quicktips&sekce=fotbal&lang=fr`. Page unique today. Pas de spider.
+- Unite = match. Tip `1`/`X`/`2`/`1X`… + `model_pct` depuis les % publics. INDEX Vitibet → `odds.index`. Score FT si present.
+- Ligues vues dans la fixture : Angleterre Premier League, Championship.

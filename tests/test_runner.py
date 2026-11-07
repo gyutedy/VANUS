@@ -37,6 +37,7 @@ def _fixtures() -> dict[str, str]:
         "metapred": _html("metapred_today.html"),
         "footinsights": _html("footinsights_today.html"),
         "besoccer": _html("besoccer_today.html"),
+        "vitibet": _html("vitibet_today.html"),
     }
 
 
@@ -54,23 +55,24 @@ def test_runner_fixtures_write_n_slates(tmp_path):
         slate_date="2026-11-07",
     )
     paths = list(out.glob("slate_*.json"))
-    assert len(paths) >= 5
+    assert len(paths) >= 6
     assert len(result["written"]) == len(paths)
     indexes = set()
     for path in paths:
         slate = json.loads(path.read_text(encoding="utf-8"))
         validate_instance(slate, "schema_slate.json")
         indexes.add(slate["index"])
-    assert indexes == {"predictlix", "dailysportpick", "metapred", "footinsights", "besoccer"}
+    assert indexes == {"predictlix", "dailysportpick", "metapred", "footinsights", "besoccer", "vitibet"}
     assert result["called"] == [
         "predictlix",
         "dailysportpick",
         "metapred",
         "footinsights",
         "besoccer",
+        "vitibet",
     ]
     assert result["skipped"] == []
-    assert len(sleeps) == 4
+    assert len(sleeps) == 5
     assert all(s == 0.5 for s in sleeps)
 
 
@@ -171,11 +173,12 @@ def test_runner_fetches_all_enabled_indexes(tmp_path):
         "metapred",
         "footinsights",
         "besoccer",
+        "vitibet",
     ]
     assert set(called) == set(result["called"])
     assert called.count("predictlix") == 1
     assert result["skipped"] == []
-    assert len(list((tmp_path / "OUT").glob("slate_*.json"))) >= 5
+    assert len(list((tmp_path / "OUT").glob("slate_*.json"))) >= 6
 
 
 def test_predictlix_whitelist_is_today_hub():
@@ -183,6 +186,13 @@ def test_predictlix_whitelist_is_today_hub():
     entries = runner.source_entries_for(_sources(), "predictlix")
     urls = [e["url"] for e in entries]
     assert urls == ["https://predictlix.com/predictions/"]
+
+
+def test_vitibet_whitelist_is_quicktips_today():
+    runner = _load_runner()
+    entries = runner.source_entries_for(_sources(), "vitibet")
+    urls = [e["url"] for e in entries]
+    assert urls == ["https://www.vitibet.com/index.php?clanek=quicktips&sekce=fotbal&lang=fr"]
 
 
 def test_httpget_error_is_skip_no_retry():

@@ -16,6 +16,8 @@ from metapred import parse_html as parse_mp
 from metapred import parse_slates as parse_mp_slates
 from predictlix import parse_html as parse_plx
 from predictlix import parse_slates as parse_plx_slates
+from vitibet import parse_html as parse_vb
+from vitibet import parse_slates as parse_vb_slates
 
 FRIGATE = Path(__file__).resolve().parents[1]
 OUT_DIR = FRIGATE / "OUT"
@@ -26,6 +28,7 @@ PARSERS = {
     "metapred": parse_mp,
     "footinsights": parse_fi,
     "besoccer": parse_bs,
+    "vitibet": parse_vb,
 }
 MULTI = {
     "predictlix": parse_plx_slates,
@@ -33,6 +36,7 @@ MULTI = {
     "metapred": parse_mp_slates,
     "footinsights": parse_fi_slates,
     "besoccer": parse_bs_slates,
+    "vitibet": parse_vb_slates,
 }
 
 
@@ -61,7 +65,7 @@ def _file_slug(text: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="F00 — HTML local → schema_slate.json")
     parser.add_argument("--html", required=True, help="chemin vers une fixture HTML")
-    parser.add_argument("--index", default=None, help="predictlix | dailysportpick | metapred | footinsights | besoccer")
+    parser.add_argument("--index", default=None, help="predictlix | dailysportpick | metapred | footinsights | besoccer | vitibet")
     parser.add_argument("--out", default=str(OUT_DIR), help="dossier OUT")
     parser.add_argument("--competition", default=None)
     parser.add_argument("--slate-date", default=None)
@@ -116,6 +120,8 @@ def _guess_index(name: str) -> str:
         return "footinsights"
     if "besoccer" in lower:
         return "besoccer"
+    if "vitibet" in lower:
+        return "vitibet"
     return "predictlix"
 
 

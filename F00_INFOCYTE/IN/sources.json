@@ -7,7 +7,8 @@
     { "id": "dailysportpick", "enabled": true },
     { "id": "metapred", "enabled": true },
     { "id": "footinsights", "enabled": true },
-    { "id": "besoccer", "enabled": true, "skip_on": [406] }
+    { "id": "besoccer", "enabled": true, "skip_on": [406] },
+    { "id": "vitibet", "enabled": true }
   ],
   "competitions": [
     { "id": "today", "name": "Today", "path": "/predictions/", "index": "predictlix" },
@@ -19,8 +20,9 @@
     { "id": "premier-league", "name": "Premier League", "path": "/predictions/", "index": "footinsights" },
     { "id": "la-liga", "name": "La Liga", "path": "/predictions/", "index": "footinsights" },
     { "id": "premier-league", "name": "Premier League", "path": "/", "index": "besoccer" },
-    { "id": "la-liga", "name": "La Liga", "path": "/", "index": "besoccer" }
+    { "id": "la-liga", "name": "La Liga", "path": "/", "index": "besoccer" },
+    { "id": "today", "name": "Today", "path": "/index.php?clanek=quicktips&sekce=fotbal&lang=fr", "index": "vitibet" }
   ],
   "inter_site_seconds": 2,
-  "note": "Ligues whitelist. PredictLix : un GET /predictions/ (toutes les ligues du jour). Pas de spider."
+  "note": "Ligues whitelist. PredictLix : un GET /predictions/ (toutes les ligues du jour). Vitibet : un GET quicktips today. Pas de spider."
 }

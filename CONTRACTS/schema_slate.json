@@ -9,7 +9,7 @@
     "contract": { "const": "vanus.slate.v1" },
     "index": {
       "type": "string",
-      "enum": ["predictlix", "dailysportpick", "metapred", "footinsights", "besoccer"]
+      "enum": ["predictlix", "dailysportpick", "metapred", "footinsights", "besoccer", "vitibet"]
     },
     "competition": { "type": "string", "minLength": 1 },
     "slate_date": { "type": "string", "format": "date" },

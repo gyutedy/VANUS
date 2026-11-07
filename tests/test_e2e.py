@@ -16,6 +16,7 @@ HTMLS = (
     ("metapred", "metapred_today.html"),
     ("footinsights", "footinsights_today.html"),
     ("besoccer", "besoccer_today.html"),
+    ("vitibet", "vitibet_today.html"),
 )
 
 

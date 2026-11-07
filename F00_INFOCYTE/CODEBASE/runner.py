@@ -21,6 +21,8 @@ from metapred import parse_slates as parse_mp_slates
 from predictlix import parse_html as parse_plx
 from predictlix import parse_slates as parse_plx_slates
 from run import write_slate
+from vitibet import parse_html as parse_vb
+from vitibet import parse_slates as parse_vb_slates
 
 FRIGATE = Path(__file__).resolve().parents[1]
 IN_DIR = FRIGATE / "IN"
@@ -33,6 +35,7 @@ PARSERS = {
     "metapred": parse_mp,
     "footinsights": parse_fi,
     "besoccer": parse_bs,
+    "vitibet": parse_vb,
 }
 MULTI = {
     "predictlix": parse_plx_slates,
@@ -40,6 +43,7 @@ MULTI = {
     "metapred": parse_mp_slates,
     "footinsights": parse_fi_slates,
     "besoccer": parse_bs_slates,
+    "vitibet": parse_vb_slates,
 }
 HOSTS = {
     "predictlix": "https://predictlix.com",
@@ -47,6 +51,7 @@ HOSTS = {
     "metapred": "https://metapred.com",
     "footinsights": "https://footinsights.com",
     "besoccer": "https://www.besoccer.com",
+    "vitibet": "https://www.vitibet.com",
 }
 
 

@@ -26,8 +26,8 @@
 - `GUIDE_UTILISATION.md` : ce que l'operateur fera sur PythonAnywhere
 - Guides `docs/01` a `docs/05`
 - `VANUS_CUSTOS.py` (seul a ecrire `liber_vanus.json`)
-- `pytest` + fixtures JSON golden + HTML PredictLix + DSP + MetaPred + FootInsights + BeSoccer (`tests/`)
-- `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `besoccer.py` + `run.py` + `runner.py`
+- `pytest` + fixtures JSON golden + HTML PredictLix + DSP + MetaPred + FootInsights + BeSoccer + Vitibet (`tests/`)
+- `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `besoccer.py` + `vitibet.py` + `run.py` + `runner.py`
 - `F01_SCRYER/CODEBASE/scryer.py` + `run.py` (cle composite, aliases.json auto, fuzzy seuil 0.90)
 - `F02_MNEMOS/CODEBASE/mnemos.py` + `blogs.py` + `run.py` (snapshots, export JSON/CSV, copie blogs)
 - `F03_SPECULUM/CODEBASE/speculum.py` + `run.py` (evolution + alertes, fingerprint)
@@ -66,7 +66,7 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 Ordre impose, une frégate a la fois :
 
 1. `CONTRACTS/` — ne plus les bouger sans version
-2. F00 INFOCYTE — **fait** (PredictLix, DSP, MetaPred, FootInsights, BeSoccer + runner)
+2. F00 INFOCYTE — **fait** (PredictLix, DSP, MetaPred, FootInsights, BeSoccer, Vitibet + runner)
 3. F01 SCRYER — **fait** (cle composite, alias auto, tiroir vide)
 4. F02 MNEMOS — **fait** (snapshots + export + blogs)
 5. F03 SPECULUM — **fait** (evolution + alertes)

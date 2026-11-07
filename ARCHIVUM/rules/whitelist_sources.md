@@ -9,6 +9,7 @@ Lecture de pages **publiques** seulement. Liste fermee. Pas de spider.
 | MetaPred | matchs du jour | HTML serveur. PHASE-04 : fixture `tests/fixtures/html/metapred_today.html`. Chemin whitelist : `https://metapred.com/fr/pronostic/aujourd-hui`. Ligues vues : Premier League, La Liga. Today only. |
 | FootInsights | blog + tips | HTML serveur. PHASE-05 : fixture `tests/fixtures/html/footinsights_today.html`. Chemin whitelist : `https://footinsights.com/predictions/`. Ligues vues : Premier League, La Liga. Tips → lignes match. Article → `raw_ref` seulement (copie markdown = F02). |
 | BeSoccer | cotes / live si GET honnete | HTML serveur. PHASE-06 : fixture `tests/fixtures/html/besoccer_today.html`. Chemin whitelist : `https://www.besoccer.com/`. Ligues vues : Premier League, La Liga. 406 = skip, 0 retry, pas de deguisement. |
+| Vitibet | pronos du jour (INDEX + 1/X/2) | HTML serveur. Un GET `https://www.vitibet.com/index.php?clanek=quicktips&sekce=fotbal&lang=fr`. Fixture : `tests/fixtures/html/vitibet_today.html`. Page unique today. Un slate par ligue (`league-title`). Pas de spider. |
 
 AlternativeTo : hors perimetre.
 
