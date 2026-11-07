@@ -17,7 +17,10 @@
     { "id": "premier-league", "name": "Premier League", "path": "/fr/pronostic/aujourd-hui", "index": "metapred" },
     { "id": "la-liga", "name": "La Liga", "path": "/fr/pronostic/aujourd-hui", "index": "metapred" },
     { "id": "premier-league", "name": "Premier League", "path": "/predictions/", "index": "footinsights" },
-    { "id": "la-liga", "name": "La Liga", "path": "/predictions/", "index": "footinsights" }
+    { "id": "la-liga", "name": "La Liga", "path": "/predictions/", "index": "footinsights" },
+    { "id": "premier-league", "name": "Premier League", "path": "/", "index": "besoccer" },
+    { "id": "la-liga", "name": "La Liga", "path": "/", "index": "besoccer" }
   ],
-  "note": "Ligues vues dans les fixtures PHASE-02/03/04/05. Pas d'URL hors whitelist."
+  "inter_site_seconds": 2,
+  "note": "Ligues vues dans les fixtures PHASE-02/03/04/05/06. Pas d'URL hors whitelist."
 }

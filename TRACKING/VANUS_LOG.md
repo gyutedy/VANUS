@@ -13,4 +13,5 @@
 - PHASE-03 : F00 DailySportPick. `dailysportpick.py`, fixtures HTML, 34 tests. OUT separe par index. Pas MetaPred.
 - PHASE-04 : F00 MetaPred. `metapred.py`, fixtures HTML, 40 tests. Today only, par competition. Pas FootInsights.
 - PHASE-05 : F00 FootInsights. `footinsights.py`, fixtures HTML, 47 tests. Tips → lignes match si collables ; article → `raw_ref` seulement. Pas BeSoccer.
-- Prochaine session : PHASE-06 BeSoccer + runner.
+- PHASE-06 : F00 BeSoccer + runner. `besoccer.py` + `runner.py`, fixtures HTML, 56 tests. 406 = skip 0 retry. Indexes `enabled`, delai inter-sites. Pas F01.
+- Prochaine session : PHASE-07 F01 SCRYER.

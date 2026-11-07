@@ -1,10 +1,10 @@
 {
   "contract": "vanus.liber.v1",
   "fleet": "VANUS",
-  "status": "phase_05_footinsights",
+  "status": "phase_06_besoccer",
   "opened_at": "2026-11-07",
   "frigates": {
-    "F00_INFOCYTE": "footinsights",
+    "F00_INFOCYTE": "besoccer",
     "F01_SCRYER": "empty",
     "F02_MNEMOS": "empty",
     "F03_SPECULUM": "empty",

@@ -29,3 +29,9 @@
 - Articles blog → `parse_blog_refs` slugs seulement. Pas de copie markdown (F02).
 - Ligues vues dans la fixture : Premier League, La Liga. Chemin whitelist : `https://footinsights.com/predictions/`.
 - Pas BeSoccer, pas runner multi-index.
+
+2026-11-07 — PHASE-06 BeSoccer + runner.
+- `CODEBASE/besoccer.py` : parse HTML public (fixture locale) → `vanus.slate.v1`. GET honnete, UA clair. 406 = skip + log, 0 retry, pas de deguisement.
+- `CODEBASE/runner.py` : indexes `enabled` dans `IN/sources.json`, delai inter-sites, OUT un slate par index x competition.
+- Ligues vues dans la fixture : Premier League, La Liga. Chemin whitelist : `https://www.besoccer.com/`.
+- Index disabled = pas d'appel. Pas F01.

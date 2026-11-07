@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : PHASE-05 FootInsights **done**. PredictLix + DSP + MetaPred + FootInsights, fixtures HTML locales, slate du jour par competition. Tips collables = lignes match ; blog = `raw_ref` seulement. Prochaine = PHASE-06 (BeSoccer + runner) puis STOP.
+**Etat** : PHASE-06 BeSoccer + runner **done**. F00 complet : 5 index, fixtures HTML locales, 406 = skip 0 retry, runner `enabled` + delai inter-sites. Prochaine = PHASE-07 (F01 SCRYER) puis STOP.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
@@ -26,14 +26,14 @@
 - `GUIDE_UTILISATION.md` : ce que l'operateur fera sur PythonAnywhere
 - Guides `docs/01` a `docs/05`
 - `VANUS_CUSTOS.py` (seul a ecrire `liber_vanus.json`)
-- `pytest` + fixtures JSON golden + HTML PredictLix + DSP + MetaPred + FootInsights (`tests/`)
-- `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `run.py`
-- `liber_vanus.json` status `phase_05_footinsights`
+- `pytest` + fixtures JSON golden + HTML PredictLix + DSP + MetaPred + FootInsights + BeSoccer (`tests/`)
+- `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `besoccer.py` + `run.py` + `runner.py`
+- `liber_vanus.json` status `phase_06_besoccer`
 
 ## 2. CE QUI N'EXISTE PAS (volontaire)
 
-- Aucun parseur BeSoccer
-- Aucun GET reseau dans F00 (fixtures locales)
+- Aucun GET reseau dans les tests (fixtures locales ; 406 mocke)
+- Aucun parseur hors F00
 - Aucun `tariel.py` / `pa_task.py` / `pa_web.py`
 - Aucune dependance pip metier (hors pytest/jsonschema)
 - Aucun secret, aucun jeton
@@ -53,12 +53,12 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-PHASE-06 — F00 BeSoccer + runner. GET honnete ; 406 = skip + log, 0 retry. Runner indexes `enabled`, delai inter-sites. Puis STOP.
+PHASE-07 — F01 SCRYER. Cle composite ligue + horaire + noms. Alias auto. Echec = tiroir vide. Puis STOP.
 
 Ordre impose, une frégate a la fois :
 
 1. `CONTRACTS/` — ne plus les bouger sans version
-2. F00 INFOCYTE — PredictLix **fait**, DSP **fait**, MetaPred **fait**, FootInsights **fait**. Ensuite BeSoccer + runner
+2. F00 INFOCYTE — **fait** (PredictLix, DSP, MetaPred, FootInsights, BeSoccer + runner)
 3. F01 SCRYER — cle composite ligue + horaire + noms
 4. F02 MNEMOS — snapshot SQLite / fichiers
 5. F03 SPECULUM — evolution + bandeau consensus
