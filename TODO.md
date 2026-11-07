@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-06 BeSoccer + runner done (2026-11-07).
+Priorise. PHASE-07 F01 SCRYER done (2026-11-07).
 
 ---
 
@@ -23,7 +23,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-04 F00 MetaPred
 - [x] PHASE-05 F00 FootInsights
 - [x] PHASE-06 F00 BeSoccer + runner
-- [ ] PHASE-07 F01 SCRYER
+- [x] PHASE-07 F01 SCRYER
 - [ ] PHASE-08 F02 snapshots + export
 - [ ] PHASE-09 F02 blogs
 - [ ] PHASE-10 F03 evolution + alertes
@@ -45,10 +45,10 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 
 ## P2 — F01 SCRYER
 
-- [ ] Cle composite : competition + date + creneau + domicile/exterieur + nom normalise
-- [ ] Table `ARCHIVUM/aliases.json` enrichie automatiquement
-- [ ] Fuzzy seulement si ligue + horaire collent, seuil haut
-- [ ] Echec = tiroir "pas trouve", jamais une fusion inventee
+- [x] Cle composite : competition + date + creneau + domicile/exterieur + nom normalise
+- [x] Table `ARCHIVUM/aliases.json` enrichie automatiquement
+- [x] Fuzzy seulement si ligue + horaire collent, seuil haut
+- [x] Echec = tiroir "pas trouve", jamais une fusion inventee
 
 ## P3 — F02 MNEMOS
 

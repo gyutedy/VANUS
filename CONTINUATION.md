@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : PHASE-06 BeSoccer + runner **done**. F00 complet : 5 index, fixtures HTML locales, 406 = skip 0 retry, runner `enabled` + delai inter-sites. Prochaine = PHASE-07 (F01 SCRYER) puis STOP.
+**Etat** : PHASE-07 F01 SCRYER **done**. Cle composite ligue + date + creneau ±45 min + noms normalises. Alias auto. Echec = tiroir vide. Prochaine = PHASE-08 (F02 snapshots + export) puis STOP.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
@@ -28,12 +28,14 @@
 - `VANUS_CUSTOS.py` (seul a ecrire `liber_vanus.json`)
 - `pytest` + fixtures JSON golden + HTML PredictLix + DSP + MetaPred + FootInsights + BeSoccer (`tests/`)
 - `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `besoccer.py` + `run.py` + `runner.py`
-- `liber_vanus.json` status `phase_06_besoccer`
+- `F01_SCRYER/CODEBASE/scryer.py` + `run.py` (cle composite, aliases.json auto, fuzzy seuil 0.90)
+- `liber_vanus.json` status `phase_07_scryer`
 
 ## 2. CE QUI N'EXISTE PAS (volontaire)
 
 - Aucun GET reseau dans les tests (fixtures locales ; 406 mocke)
 - Aucun parseur hors F00
+- Aucun snapshot F02 / evolution F03
 - Aucun `tariel.py` / `pa_task.py` / `pa_web.py`
 - Aucune dependance pip metier (hors pytest/jsonschema)
 - Aucun secret, aucun jeton
@@ -53,13 +55,13 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-PHASE-07 — F01 SCRYER. Cle composite ligue + horaire + noms. Alias auto. Echec = tiroir vide. Puis STOP.
+PHASE-08 — F02 MNEMOS snapshots + export. Snapshot match × source × marche × `captured_at`. Export JSON/CSV `ARCHIVUM/exports/`. Puis STOP.
 
 Ordre impose, une frégate a la fois :
 
 1. `CONTRACTS/` — ne plus les bouger sans version
 2. F00 INFOCYTE — **fait** (PredictLix, DSP, MetaPred, FootInsights, BeSoccer + runner)
-3. F01 SCRYER — cle composite ligue + horaire + noms
+3. F01 SCRYER — **fait** (cle composite, alias auto, tiroir vide)
 4. F02 MNEMOS — snapshot SQLite / fichiers
 5. F03 SPECULUM — evolution + bandeau consensus
 6. F05 CELL — preview lisible

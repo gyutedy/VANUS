@@ -1,1 +1,1 @@
-# F01 SCRYER — aucune dependance tant que CODEBASE est vide.
+# F01 SCRYER — stdlib only (difflib, unicodedata, json).
