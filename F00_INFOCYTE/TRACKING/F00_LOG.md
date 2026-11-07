@@ -35,3 +35,12 @@
 - `CODEBASE/runner.py` : indexes `enabled` dans `IN/sources.json`, delai inter-sites, OUT un slate par index x competition.
 - Ligues vues dans la fixture : Premier League, La Liga. Chemin whitelist : `https://www.besoccer.com/`.
 - Index disabled = pas d'appel. Pas F01.
+
+2026-11-07 — GET honnete pour tous les indexes enabled.
+- `CODEBASE/httpget.py` : GET UA VANUS, 0 retry, skip HTTPError/URLError.
+- `runner.py` : plus de `no_fetcher`. PredictLix, DSP, MetaPred, FootInsights, BeSoccer GET la whitelist.
+- 406 BeSoccer inchange. Pas de deguisement.
+
+2026-11-07 — PredictLix hub today.
+- Un GET `https://predictlix.com/predictions/`. `parse_slates` decoupe par h2 ligue.
+- Pas 140 GET. Pas de spider. Whitelist = cette URL.

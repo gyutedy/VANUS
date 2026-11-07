@@ -10,7 +10,7 @@
     { "id": "besoccer", "enabled": true, "skip_on": [406] }
   ],
   "competitions": [
-    { "id": "la-liga", "name": "La Liga", "path": "/predictions/spain/la-liga/", "index": "predictlix" },
+    { "id": "today", "name": "Today", "path": "/predictions/", "index": "predictlix" },
     { "id": "la-liga", "name": "La Liga", "path": "/fr/", "index": "dailysportpick" },
     { "id": "premier-league", "name": "Premier League", "path": "/fr/", "index": "dailysportpick" },
     { "id": "serie-a", "name": "Serie A", "path": "/fr/", "index": "dailysportpick" },
@@ -22,5 +22,5 @@
     { "id": "la-liga", "name": "La Liga", "path": "/", "index": "besoccer" }
   ],
   "inter_site_seconds": 2,
-  "note": "Ligues vues dans les fixtures PHASE-02/03/04/05/06. Pas d'URL hors whitelist."
+  "note": "Ligues whitelist. PredictLix : un GET /predictions/ (toutes les ligues du jour). Pas de spider."
 }

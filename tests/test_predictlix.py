@@ -87,6 +87,25 @@ def test_empty_html_is_empty_list_not_crash():
     assert slate["matches"] == []
 
 
+def test_parse_slates_splits_leagues():
+    plx = _load_predictlix()
+    slates = plx.parse_slates(
+        _html("predictlix_today_hub.html"),
+        captured_at="2026-11-07T10:00:00Z",
+        source_url="https://predictlix.com/predictions/",
+    )
+    names = [s["competition"] for s in slates]
+    assert names == ["England Premier League", "England Championship"]
+    for slate in slates:
+        validate_instance(slate, "schema_slate.json")
+        assert slate["index"] == "predictlix"
+    pl = next(s for s in slates if "Premier League" in s["competition"])
+    assert pl["matches"][0]["home"] == "Fulham"
+    ch = next(s for s in slates if "Championship" in s["competition"])
+    assert ch["matches"][0]["home"] == "Birmingham"
+    assert ch["matches"][0]["odds"]["pinnacle"]["price"] == 1.88
+
+
 def test_user_agent_is_clear_not_browser():
     plx = _load_predictlix()
     assert plx.USER_AGENT.startswith("VANUS/")

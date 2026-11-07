@@ -136,3 +136,87 @@ def test_runner_406_skips_besoccer_no_retry(tmp_path):
     assert skipped[0]["retries"] == 0
     names = {p.name for p in (tmp_path / "OUT").glob("slate_*.json")}
     assert not any("besoccer" in n for n in names)
+
+
+def test_runner_fetches_all_enabled_indexes(tmp_path):
+    runner = _load_runner()
+    called: list[str] = []
+    fixtures = _fixtures()
+
+    def make_fetch(index_id: str, html: str):
+        def fetch(url):
+            called.append(index_id)
+            return {
+                "ok": True,
+                "status": 200,
+                "skipped": False,
+                "html": html,
+                "url": url,
+                "retries": 0,
+            }
+
+        return fetch
+
+    result = runner.run_fleet(
+        _sources(),
+        fetchers={k: make_fetch(k, v) for k, v in fixtures.items()},
+        out_dir=tmp_path / "OUT",
+        delay=0,
+        captured_at="2026-11-07T10:00:00Z",
+        slate_date="2026-11-07",
+    )
+    assert result["called"] == [
+        "predictlix",
+        "dailysportpick",
+        "metapred",
+        "footinsights",
+        "besoccer",
+    ]
+    assert set(called) == set(result["called"])
+    assert called.count("predictlix") == 1
+    assert result["skipped"] == []
+    assert len(list((tmp_path / "OUT").glob("slate_*.json"))) >= 5
+
+
+def test_predictlix_whitelist_is_today_hub():
+    runner = _load_runner()
+    entries = runner.source_entries_for(_sources(), "predictlix")
+    urls = [e["url"] for e in entries]
+    assert urls == ["https://predictlix.com/predictions/"]
+
+
+def test_httpget_error_is_skip_no_retry():
+    import io
+    import urllib.error
+
+    sys.path.insert(0, str(CODEBASE))
+    import httpget
+
+    calls = {"n": 0}
+    logs: list[str] = []
+
+    def urlopen(req, timeout=None):
+        calls["n"] += 1
+        raise urllib.error.HTTPError(
+            "https://predictlix.com/",
+            403,
+            "Forbidden",
+            {},
+            io.BytesIO(b""),
+        )
+
+    result = httpget.fetch(
+        "https://predictlix.com/",
+        index="predictlix",
+        urlopen=urlopen,
+        log=logs.append,
+    )
+    assert result["skipped"] is True
+    assert result["ok"] is False
+    assert result["status"] == 403
+    assert result["retries"] == 0
+    assert result["html"] is None
+    assert calls["n"] == 1
+    assert any("predictlix" in line and "skip" in line for line in logs)
+    assert httpget.USER_AGENT.startswith("VANUS/")
+    assert "Chrome" not in httpget.USER_AGENT

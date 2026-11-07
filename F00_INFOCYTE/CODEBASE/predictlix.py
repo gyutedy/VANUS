@@ -27,6 +27,11 @@ _EV = re.compile(r"([+-]?\d+(?:\.\d+)?)\s*%")
 _SCORE = re.compile(r"(\d+)\s*[–-]\s*(\d+)")
 _TODAY = re.compile(r"Today\s*[-–]\s*(?:[A-Za-z]+,\s*)?([A-Za-z]+)\s+(\d{1,2})", re.I)
 _H3 = re.compile(r"<h3\b[^>]*>([\s\S]*?)</h3>", re.I)
+_H2 = re.compile(r"<h2\b[^>]*>([\s\S]*?)</h2>", re.I)
+_COUNTRY = re.compile(
+    r'<span\b[^>]*class="[^"]*\bleague-country\b[^"]*"[^>]*>([\s\S]*?)</span>',
+    re.I,
+)
 
 
 def parse_html(
@@ -37,26 +42,100 @@ def parse_html(
     captured_at: str | None = None,
     source_url: str | None = None,
 ) -> dict[str, Any]:
-    text_h1 = _plain(_first(_H1, html) or "")
-    comp = competition or _competition_from_h1(text_h1) or "unknown"
+    slates = parse_slates(
+        html,
+        slate_date=slate_date,
+        captured_at=captured_at,
+        source_url=source_url,
+    )
     date = slate_date or _slate_date_from_html(html) or _today_utc()
     cap = captured_at or _now_utc()
+    if competition:
+        want = _norm(competition)
+        for slate in slates:
+            got = _norm(slate["competition"])
+            if got == want or want in got or got.endswith(want):
+                return slate
+        return _make_slate(competition.strip(), date, cap, [], source_url)
+    if slates:
+        return slates[0]
+    text_h1 = _plain(_first(_H1, html) or "")
+    return _make_slate(
+        _competition_from_h1(text_h1) or "unknown",
+        date,
+        cap,
+        [],
+        source_url,
+    )
+
+
+def parse_slates(
+    html: str,
+    *,
+    slate_date: str | None = None,
+    captured_at: str | None = None,
+    source_url: str | None = None,
+) -> list[dict[str, Any]]:
+    date = slate_date or _slate_date_from_html(html) or _today_utc()
+    cap = captured_at or _now_utc()
+    h2s = list(_H2.finditer(html))
+    if h2s:
+        slates: list[dict[str, Any]] = []
+        for i, match in enumerate(h2s):
+            name = _plain(match.group(1))
+            if not name:
+                continue
+            end = h2s[i + 1].start() if i + 1 < len(h2s) else len(html)
+            chunk = html[match.end():end]
+            matches = _matches_from_html(chunk, date)
+            if not matches:
+                continue
+            country = _plain(_first(_COUNTRY, chunk) or "")
+            slates.append(_make_slate(_comp_label(name, country), date, cap, matches, source_url))
+        return slates
+    matches = _matches_from_html(html, date)
+    text_h1 = _plain(_first(_H1, html) or "")
+    comp = _competition_from_h1(text_h1) or "unknown"
+    return [_make_slate(comp, date, cap, matches, source_url)]
+
+
+def _matches_from_html(html: str, slate_date: str) -> list[dict[str, Any]]:
     matches: list[dict[str, Any]] = []
     for row in _ROW.findall(html):
-        parsed = _parse_row(row, date)
+        parsed = _parse_row(row, slate_date)
         if parsed is not None:
             matches.append(parsed)
+    return matches
+
+
+def _make_slate(
+    competition: str,
+    slate_date: str,
+    captured_at: str,
+    matches: list[dict[str, Any]],
+    source_url: str | None,
+) -> dict[str, Any]:
     slate: dict[str, Any] = {
         "contract": CONTRACT,
         "index": INDEX,
-        "competition": comp,
-        "slate_date": date,
-        "captured_at": cap,
+        "competition": competition,
+        "slate_date": slate_date,
+        "captured_at": captured_at,
         "matches": matches,
     }
     if source_url:
         slate["source_url"] = source_url
     return slate
+
+
+def _comp_label(name: str, country: str) -> str:
+    if country and country.lower() not in name.lower():
+        return f"{country} {name}"
+    return name
+
+
+def _norm(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.lower())
 
 
 def _parse_row(row: str, slate_date: str) -> dict[str, Any] | None:

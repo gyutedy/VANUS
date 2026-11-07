@@ -15,6 +15,7 @@ from footinsights import parse_slates as parse_fi_slates
 from metapred import parse_html as parse_mp
 from metapred import parse_slates as parse_mp_slates
 from predictlix import parse_html as parse_plx
+from predictlix import parse_slates as parse_plx_slates
 
 FRIGATE = Path(__file__).resolve().parents[1]
 OUT_DIR = FRIGATE / "OUT"
@@ -27,6 +28,7 @@ PARSERS = {
     "besoccer": parse_bs,
 }
 MULTI = {
+    "predictlix": parse_plx_slates,
     "dailysportpick": parse_dsp_slates,
     "metapred": parse_mp_slates,
     "footinsights": parse_fi_slates,
