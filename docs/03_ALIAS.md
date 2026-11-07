@@ -4,7 +4,9 @@ Pas d'ecran manuel. Auto ou trou.
 
 ## Cle composite (pas un nom)
 
-competition (deja choisie) + date + creneau (±30–60 min) + domicile/exterieur + noms normalises.
+competition (slug canon pays+ligue) + date + creneau (±45 min) + domicile/exterieur + noms normalises.
+
+`Angleterre: Premier League`, `England Premier League` et `Premier League` (sans pays) = `englandpremierleague`. `Ghana Premier League` reste `ghanapremierleague`. Kickoff `T00:00:00Z` (heure absente) colle le meme jour ; un horaire reel remplace minuit sur la fiche.
 
 ## Noms
 

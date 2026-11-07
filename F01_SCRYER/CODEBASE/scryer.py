@@ -23,6 +23,117 @@ INDEX_ORDER = (
 
 _NON_ALNUM = re.compile(r"[^a-z0-9]+")
 
+_COUNTRY_PREFIXES: tuple[tuple[str, str], ...] = (
+    ("irlandedunord", "northernireland"),
+    ("northernireland", "northernireland"),
+    ("unitedarabemirates", "uae"),
+    ("republiquetcheque", "czech"),
+    ("czechrepublic", "czech"),
+    ("arabiesaoudite", "saudi"),
+    ("saudiarabia", "saudi"),
+    ("southkorea", "southkorea"),
+    ("afriquedusud", "southafrica"),
+    ("southafrica", "southafrica"),
+    ("unitedstates", "usa"),
+    ("etatsunis", "usa"),
+    ("netherlands", "netherlands"),
+    ("paysbas", "netherlands"),
+    ("switzerland", "switzerland"),
+    ("angleterre", "england"),
+    ("australia", "australia"),
+    ("australie", "australia"),
+    ("allemagne", "germany"),
+    ("scotland", "scotland"),
+    ("scottish", "scotland"),
+    ("portugal", "portugal"),
+    ("germany", "germany"),
+    ("england", "england"),
+    ("english", "england"),
+    ("espagne", "spain"),
+    ("spanish", "spain"),
+    ("belgium", "belgium"),
+    ("belgique", "belgium"),
+    ("belgian", "belgium"),
+    ("austria", "austria"),
+    ("autriche", "austria"),
+    ("austrian", "austria"),
+    ("denmark", "denmark"),
+    ("danemark", "denmark"),
+    ("danish", "denmark"),
+    ("sweden", "sweden"),
+    ("suede", "sweden"),
+    ("swedish", "sweden"),
+    ("norway", "norway"),
+    ("norvege", "norway"),
+    ("italian", "italy"),
+    ("france", "france"),
+    ("french", "france"),
+    ("italia", "italy"),
+    ("italie", "italy"),
+    ("turkey", "turkey"),
+    ("turquie", "turkey"),
+    ("ecosse", "scotland"),
+    ("suisse", "switzerland"),
+    ("swiss", "switzerland"),
+    ("holland", "netherlands"),
+    ("poland", "poland"),
+    ("pologne", "poland"),
+    ("russia", "russia"),
+    ("russie", "russia"),
+    ("russian", "russia"),
+    ("ukraine", "ukraine"),
+    ("greece", "greece"),
+    ("grece", "greece"),
+    ("kenya", "kenya"),
+    ("kenyan", "kenya"),
+    ("ghana", "ghana"),
+    ("uganda", "uganda"),
+    ("ugandan", "uganda"),
+    ("morocco", "morocco"),
+    ("maroc", "morocco"),
+    ("tunisia", "tunisia"),
+    ("tunisie", "tunisia"),
+    ("algeria", "algeria"),
+    ("algerie", "algeria"),
+    ("ireland", "ireland"),
+    ("irlande", "ireland"),
+    ("mexico", "mexico"),
+    ("mexique", "mexico"),
+    ("brazil", "brazil"),
+    ("bresil", "brazil"),
+    ("argentina", "argentina"),
+    ("argentine", "argentina"),
+    ("spain", "spain"),
+    ("italy", "italy"),
+    ("usa", "usa"),
+    ("uae", "uae"),
+)
+_COUNTRY_PREFIXES = tuple(sorted(_COUNTRY_PREFIXES, key=lambda item: len(item[0]), reverse=True))
+
+_DEFAULT_COUNTRY_FOR_CORE = {
+    "premierleague": "england",
+    "championship": "england",
+    "leagueone": "england",
+    "leaguetwo": "england",
+    "facup": "england",
+    "fawsl": "england",
+    "nationalleague": "england",
+    "nationalleaguenorth": "england",
+    "nationalleaguesouth": "england",
+    "laliga": "spain",
+    "segundadivision": "spain",
+    "seriea": "italy",
+    "serieb": "italy",
+    "bundesliga": "germany",
+    "2bundesliga": "germany",
+    "ligue1": "france",
+    "ligue2": "france",
+    "eredivisie": "netherlands",
+    "eerstedivisie": "netherlands",
+    "primeiraliga": "portugal",
+    "premiership": "scotland",
+}
+
 
 def normalize_name(value: str) -> str:
     text = _strip_accents(value).lower()
@@ -36,8 +147,14 @@ def name_slug(value: str) -> str:
 
 
 def competition_slug(value: str) -> str:
-    text = _strip_accents(value).lower()
-    return _NON_ALNUM.sub("", text) or "unknown"
+    text = _strip_accents(value).lower().replace(":", " ")
+    raw = _NON_ALNUM.sub("", text) or "unknown"
+    country, core = _split_country(raw)
+    if not country:
+        country = _DEFAULT_COUNTRY_FOR_CORE.get(core)
+    if country and core:
+        return country + core
+    return raw
 
 
 def load_aliases(path: Path | None) -> dict[str, Any]:
@@ -144,6 +261,8 @@ def names_match(left: str, right: str, aliases: dict[str, Any] | None = None) ->
         return True
     if gb and (a == gb or a in teams.get(gb, [])):
         return True
+    if _token_compatible(a, b):
+        return True
     return SequenceMatcher(None, a, b).ratio() >= FUZZY_THRESHOLD
 
 
@@ -201,6 +320,19 @@ def _attach(
         cluster["indexes"][index] = dict(row)
     if cluster.get("score") in (None, "") and row.get("score") not in (None, ""):
         cluster["score"] = row.get("score")
+    incoming_ko = str(row.get("kickoff") or "")
+    if incoming_ko:
+        cluster_dt = _parse_dt(cluster["kickoff"])
+        incoming_dt = _parse_dt(incoming_ko)
+        if _is_midnight(cluster_dt) and not _is_midnight(incoming_dt):
+            cluster["kickoff"] = incoming_ko
+            cluster["match_key"] = _match_key(
+                cluster["competition"],
+                cluster["slate_date"],
+                incoming_ko,
+                cluster["home"],
+                cluster["away"],
+            )
     _remember(aliases, cluster["home"], home)
     _remember(aliases, cluster["away"], away)
 
@@ -258,8 +390,16 @@ def _match_key(competition: str, slate_date: str, kickoff: str, home: str, away:
 
 
 def _within_window(left: str, right: str) -> bool:
-    delta = abs((_parse_dt(left) - _parse_dt(right)).total_seconds())
+    a = _parse_dt(left)
+    b = _parse_dt(right)
+    if _is_midnight(a) or _is_midnight(b):
+        return a.date() == b.date()
+    delta = abs((a - b).total_seconds())
     return delta <= WINDOW_MINUTES * 60
+
+
+def _is_midnight(dt: datetime) -> bool:
+    return dt.hour == 0 and dt.minute == 0 and dt.second == 0
 
 
 def _parse_dt(value: str) -> datetime:
@@ -275,6 +415,59 @@ def _parse_dt(value: str) -> datetime:
 def _strip_accents(value: str) -> str:
     nfkd = unicodedata.normalize("NFKD", value)
     return "".join(ch for ch in nfkd if not unicodedata.combining(ch))
+
+
+_OPTIONAL_SUFFIXES = frozenset(
+    {"united", "city", "town", "hotspur", "wanderers", "rovers", "albion", "ne"}
+)
+_TOKEN_EXPAND = {"utd": "united"}
+
+
+def _split_country(raw: str) -> tuple[str | None, str]:
+    for prefix, canon in _COUNTRY_PREFIXES:
+        if raw.startswith(prefix) and len(raw) > len(prefix):
+            return canon, raw[len(prefix):]
+    return None, raw
+
+
+def _name_tokens(value: str) -> list[str]:
+    out: list[str] = []
+    for tok in value.split():
+        if len(tok) <= 1:
+            continue
+        out.append(_TOKEN_EXPAND.get(tok, tok))
+    return out
+
+
+def _token_eq(left: str, right: str) -> bool:
+    if left == right:
+        return True
+    if len(left) >= 3 and len(right) >= 3 and (left.startswith(right) or right.startswith(left)):
+        return True
+    return False
+
+
+def _token_compatible(left: str, right: str) -> bool:
+    ta = _name_tokens(left)
+    tb = _name_tokens(right)
+    if not ta or not tb:
+        return False
+    if len(ta) > len(tb):
+        ta, tb = tb, ta
+    used = [False] * len(tb)
+    for tok in ta:
+        hit = False
+        for i, other in enumerate(tb):
+            if used[i]:
+                continue
+            if _token_eq(tok, other):
+                used[i] = True
+                hit = True
+                break
+        if not hit:
+            return False
+    leftover = [tb[i] for i, taken in enumerate(used) if not taken]
+    return all(token in _OPTIONAL_SUFFIXES for token in leftover)
 
 
 def _slate_sort_key(slate: dict[str, Any]) -> tuple:

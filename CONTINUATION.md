@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : PHASE-14 E2E + CI pytest **done**. Flotte testable hors PA. `liber_vanus.json` = `harness_ready`. Code autorise. Greffe = `CONTRACTS/` + `F03_SPECULUM/OUT/`.
+**Etat** : PHASE-14 done. F01 collage live 2e run : PL Fulham–Newcastle n=4, Leeds–Tottenham n=3. Flotte testable hors PA. `liber_vanus.json` = `harness_ready`. Greffe = `CONTRACTS/` + `F03_SPECULUM/OUT/`.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.

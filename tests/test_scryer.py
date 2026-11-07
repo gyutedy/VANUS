@@ -59,7 +59,7 @@ def test_same_clubs_different_spellings_one_match_key():
     assert len(matches) == 1
     match = matches[0]
     validate_instance(match, "schema_match.json")
-    assert match["match_key"] == "laliga:2026-11-07:2000:atletico-madrid:valencia"
+    assert match["match_key"] == "spainlaliga:2026-11-07:2000:atletico-madrid:valencia"
     assert match["indexes"]["predictlix"] is not None
     assert match["indexes"]["dailysportpick"] is not None
     assert aliases["teams"] == {}
@@ -85,8 +85,8 @@ def test_kickoff_too_far_not_fused():
     assert len(matches) == 2
     keys = {m["match_key"] for m in matches}
     assert keys == {
-        "laliga:2026-11-07:1200:athletic-club:valencia",
-        "laliga:2026-11-07:1500:athletic-club:valencia",
+        "spainlaliga:2026-11-07:1200:athletic-club:valencia",
+        "spainlaliga:2026-11-07:1500:athletic-club:valencia",
     }
     for match in matches:
         validate_instance(match, "schema_match.json")
@@ -116,8 +116,8 @@ def test_athletic_vs_athletic_bilbao_is_hole():
     assert len(matches) == 2
     keys = {m["match_key"] for m in matches}
     assert keys == {
-        "laliga:2026-11-07:2000:athletic-club:valencia",
-        "laliga:2026-11-07:2000:athletic-bilbao:valencia",
+        "spainlaliga:2026-11-07:2000:athletic-club:valencia",
+        "spainlaliga:2026-11-07:2000:athletic-bilbao:valencia",
     }
     by_home = {m["home"]: m for m in matches}
     club = by_home["Athletic Club"]
@@ -150,7 +150,7 @@ def test_kickoff_within_window_fuses():
     assert len(matches) == 1
     match = matches[0]
     validate_instance(match, "schema_match.json")
-    assert match["match_key"] == "laliga:2026-11-07:2000:barcelona:girona"
+    assert match["match_key"] == "spainlaliga:2026-11-07:2000:barcelona:girona"
     assert match["indexes"]["predictlix"] is not None
     assert match["indexes"]["besoccer"] is not None
     assert sc.WINDOW_MINUTES == 45
@@ -251,3 +251,98 @@ def test_run_writes_match_files(tmp_path):
     assert match["indexes"]["predictlix"]["pick"] == "X"
     saved = json.loads(aliases.read_text(encoding="utf-8"))
     assert saved == {"teams": {}}
+
+
+def test_country_prefixed_leagues_same_core():
+    sc = _load_scryer()
+    slates = [
+        _slate(
+            "predictlix",
+            "England Premier League",
+            "2026-11-07",
+            [_row("Leeds", "Tottenham", "2026-11-07T00:00:00Z", pick="X")],
+        ),
+        _slate(
+            "footinsights",
+            "Premier League",
+            "2026-11-07",
+            [_row("Leeds United", "Tottenham", "2026-11-07T00:00:00Z", pick="U3.5")],
+        ),
+        _slate(
+            "vitibet",
+            "Angleterre: Premier League",
+            "2026-11-07",
+            [_row("Leeds", "Tottenham", "2026-11-07T12:30:00Z", pick="1X")],
+        ),
+        _slate(
+            "dailysportpick",
+            "Premier League",
+            "2026-11-07",
+            [_row("Fulham", "Newcastle", "2026-11-07T15:00:00Z", pick="AH")],
+        ),
+    ]
+    matches = sc.align(slates, {"teams": {}})
+    leeds = [m for m in matches if sc.names_match(m["home"], "Leeds")]
+    assert len(leeds) == 1
+    match = leeds[0]
+    validate_instance(match, "schema_match.json")
+    assert match["match_key"].startswith("englandpremierleague:2026-11-07:")
+    assert match["kickoff"] == "2026-11-07T12:30:00Z"
+    assert match["indexes"]["predictlix"] is not None
+    assert match["indexes"]["footinsights"] is not None
+    assert match["indexes"]["vitibet"] is not None
+    assert match["indexes"]["dailysportpick"] is None
+
+
+def test_ghana_premier_league_not_england():
+    sc = _load_scryer()
+    slates = [
+        _slate(
+            "footinsights",
+            "Premier League",
+            "2026-11-07",
+            [_row("Leeds", "Tottenham", "2026-11-07T12:30:00Z")],
+        ),
+        _slate(
+            "footinsights",
+            "Ghana Premier League",
+            "2026-11-07",
+            [_row("Ashanti Gold", "Samartex", "2026-11-07T15:00:00Z")],
+        ),
+    ]
+    matches = sc.align(slates, {"teams": {}})
+    assert len(matches) == 2
+    keys = {m["match_key"] for m in matches}
+    assert any(k.startswith("englandpremierleague:") for k in keys)
+    assert any(k.startswith("ghanapremierleague:") for k in keys)
+
+
+def test_nottm_forest_and_man_city_aliases():
+    sc = _load_scryer()
+    slates = [
+        _slate(
+            "predictlix",
+            "England Premier League",
+            "2026-11-07",
+            [_row("Nottingham Forest", "Manchester City", "2026-11-07T20:30:00Z")],
+        ),
+        _slate(
+            "footinsights",
+            "Premier League",
+            "2026-11-07",
+            [_row("Nott'm Forest", "Man City", "2026-11-07T00:00:00Z")],
+        ),
+        _slate(
+            "vitibet",
+            "Angleterre: Premier League",
+            "2026-11-07",
+            [_row("Nottingham Forest FC", "Manchester City FC", "2026-11-07T00:00:00Z")],
+        ),
+    ]
+    matches = sc.align(slates, {"teams": {}})
+    assert len(matches) == 1
+    match = matches[0]
+    validate_instance(match, "schema_match.json")
+    assert match["indexes"]["predictlix"] is not None
+    assert match["indexes"]["footinsights"] is not None
+    assert match["indexes"]["vitibet"] is not None

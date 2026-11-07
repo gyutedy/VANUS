@@ -1,1 +1,46 @@
-{}
+{
+  "teams": {
+    "stoke": [
+      "stoke city"
+    ],
+    "preston": [
+      "preston ne"
+    ],
+    "lincoln": [
+      "lincoln city"
+    ],
+    "huddersfield": [
+      "huddersfield town"
+    ],
+    "luton": [
+      "luton town"
+    ],
+    "leeds": [
+      "leeds united"
+    ],
+    "augsburg": [
+      "augsbourg"
+    ],
+    "werder breme": [
+      "werder bremen"
+    ],
+    "werder breme ii": [
+      "werder bremen ii"
+    ],
+    "peterborough": [
+      "peterborough united"
+    ],
+    "hellas verona": [
+      "hellas verone"
+    ],
+    "slask wroclaw": [
+      "slask wroc aw"
+    ],
+    "arsenal tula": [
+      "arsenal toula"
+    ],
+    "cska moscow": [
+      "cska moscou"
+    ]
+  }
+}

@@ -82,7 +82,7 @@ GET honnete ; **406 → skip + log, 0 retry**. Runner F00 : indexes `enabled`, d
 
 ## PHASE-07 — F01 SCRYER (M)
 
-Cle : competition + date + creneau ±30–60 min + home/away + nom normalise. `aliases.json` enrichi si collage OK. Fuzzy seulement si ligue+horaire collent, seuil haut. Echec = `indexes.<id> = null`.
+Cle : competition (pays+ligue canon) + date + creneau ±45 min + home/away + nom normalise. Prefixes pays (England / Angleterre) et ligues nues (Premier League → england). Minuit = heure absente, colle le jour. `aliases.json` enrichi si collage OK. Fuzzy / tokens (Leeds United) seulement si ligue+horaire collent, seuil haut. Echec = `indexes.<id> = null`.
 
 **Tests :** memes clubs orthographes differentes → 1 `match_key` ; horaire trop loin → pas fusion ; Athletic vs Athletic Bilbao sans preuve → tiroir vide.
 
