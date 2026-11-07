@@ -11,4 +11,5 @@
 - PHASE-01 : `VANUS_CUSTOS.py`, pytest, fixtures JSON, 21 tests. Zero parseur.
 - PHASE-02 : F00 PredictLix. `predictlix.py` + `run.py`, fixtures HTML, 28 tests. Un site. Pas DSP.
 - PHASE-03 : F00 DailySportPick. `dailysportpick.py`, fixtures HTML, 34 tests. OUT separe par index. Pas MetaPred.
-- Prochaine session : PHASE-04 MetaPred.
+- PHASE-04 : F00 MetaPred. `metapred.py`, fixtures HTML, 40 tests. Today only, par competition. Pas FootInsights.
+- Prochaine session : PHASE-05 FootInsights.

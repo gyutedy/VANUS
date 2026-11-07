@@ -8,6 +8,8 @@ from pathlib import Path
 
 from dailysportpick import parse_html as parse_dsp
 from dailysportpick import parse_slates as parse_dsp_slates
+from metapred import parse_html as parse_mp
+from metapred import parse_slates as parse_mp_slates
 from predictlix import parse_html as parse_plx
 
 FRIGATE = Path(__file__).resolve().parents[1]
@@ -16,6 +18,11 @@ OUT_DIR = FRIGATE / "OUT"
 PARSERS = {
     "predictlix": parse_plx,
     "dailysportpick": parse_dsp,
+    "metapred": parse_mp,
+}
+MULTI = {
+    "dailysportpick": parse_dsp_slates,
+    "metapred": parse_mp_slates,
 }
 
 
@@ -44,7 +51,7 @@ def _file_slug(text: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="F00 — HTML local → schema_slate.json")
     parser.add_argument("--html", required=True, help="chemin vers une fixture HTML")
-    parser.add_argument("--index", default=None, help="predictlix | dailysportpick")
+    parser.add_argument("--index", default=None, help="predictlix | dailysportpick | metapred")
     parser.add_argument("--out", default=str(OUT_DIR), help="dossier OUT")
     parser.add_argument("--competition", default=None)
     parser.add_argument("--slate-date", default=None)
@@ -61,16 +68,16 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     html = load_html(html_path)
     out_dir = Path(args.out)
-    if index == "dailysportpick" and not args.competition:
+    if index in MULTI and not args.competition:
         written = []
-        for slate in parse_dsp_slates(
+        for slate in MULTI[index](
             html,
             slate_date=args.slate_date,
             source_url=args.source_url,
         ):
             written.append(write_slate(slate, out_dir))
         if not written:
-            empty = parse_dsp(
+            empty = PARSERS[index](
                 html,
                 slate_date=args.slate_date,
                 source_url=args.source_url,
@@ -93,6 +100,8 @@ def _guess_index(name: str) -> str:
     lower = name.lower()
     if "dailysportpick" in lower or lower.startswith("dsp"):
         return "dailysportpick"
+    if "metapred" in lower:
+        return "metapred"
     return "predictlix"
 
 

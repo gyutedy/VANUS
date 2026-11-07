@@ -16,3 +16,9 @@
 - Unite = match. Pick/cotes absents → `null` / `{}`. Extra cards inclus.
 - Ligues vues dans la fixture : La Liga, Premier League, Serie A. Chemin whitelist : `https://dailysportpick.com/fr/`.
 - Pas MetaPred, pas FootInsights, pas runner multi-index.
+
+2026-11-07 — PHASE-04 MetaPred.
+- `CODEBASE/metapred.py` : parse HTML public (fixture locale) → `vanus.slate.v1`, un slate par competition.
+- Today only : slug `DD-MM-YYYY` hors `slate_date` ignore. Blocs Demain/Hier ignores.
+- Ligues vues dans la fixture : Premier League, La Liga. Chemin whitelist : `https://metapred.com/fr/pronostic/aujourd-hui`.
+- Pas FootInsights, pas BeSoccer, pas runner multi-index.

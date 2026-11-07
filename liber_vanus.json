@@ -1,10 +1,10 @@
 {
   "contract": "vanus.liber.v1",
   "fleet": "VANUS",
-  "status": "phase_03_dailysportpick",
+  "status": "phase_04_metapred",
   "opened_at": "2026-11-07",
   "frigates": {
-    "F00_INFOCYTE": "dailysportpick",
+    "F00_INFOCYTE": "metapred",
     "F01_SCRYER": "empty",
     "F02_MNEMOS": "empty",
     "F03_SPECULUM": "empty",

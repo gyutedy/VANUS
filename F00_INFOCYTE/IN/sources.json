@@ -13,7 +13,9 @@
     { "id": "la-liga", "name": "La Liga", "path": "/predictions/spain/la-liga/", "index": "predictlix" },
     { "id": "la-liga", "name": "La Liga", "path": "/fr/", "index": "dailysportpick" },
     { "id": "premier-league", "name": "Premier League", "path": "/fr/", "index": "dailysportpick" },
-    { "id": "serie-a", "name": "Serie A", "path": "/fr/", "index": "dailysportpick" }
+    { "id": "serie-a", "name": "Serie A", "path": "/fr/", "index": "dailysportpick" },
+    { "id": "premier-league", "name": "Premier League", "path": "/fr/pronostic/aujourd-hui", "index": "metapred" },
+    { "id": "la-liga", "name": "La Liga", "path": "/fr/pronostic/aujourd-hui", "index": "metapred" }
   ],
-  "note": "Ligues vues dans les fixtures PHASE-02/03. Pas d'URL hors whitelist."
+  "note": "Ligues vues dans les fixtures PHASE-02/03/04. Pas d'URL hors whitelist."
 }
