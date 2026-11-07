@@ -26,7 +26,7 @@ def _html(name: str) -> str:
     return (HTML_DIR / name).read_text(encoding="utf-8")
 
 
-def test_tips_become_match_lines_by_competition_today_only():
+def test_tips_become_match_lines_by_competition_all_dates():
     fi = _load_fi()
     slates = fi.parse_slates(
         _html("footinsights_today.html"),
@@ -35,12 +35,17 @@ def test_tips_become_match_lines_by_competition_today_only():
     )
     names = {s["competition"] for s in slates}
     assert names == {"Premier League", "La Liga"}
+    dates = {s["slate_date"] for s in slates}
+    assert dates == {"2026-11-07", "2026-11-08"}
     for slate in slates:
         assert slate["index"] == "footinsights"
-        assert slate["slate_date"] == "2026-11-07"
         validate_instance(slate, "schema_slate.json")
-        homes = [m["home"] for m in slate["matches"]]
-        assert "Arsenal" not in homes
+    today_pl = next(
+        s for s in slates if s["competition"] == "Premier League" and s["slate_date"] == "2026-11-07"
+    )
+    assert "Arsenal" not in [m["home"] for m in today_pl["matches"]]
+    tomorrow = next(s for s in slates if s["slate_date"] == "2026-11-08")
+    assert any(m["home"] == "Arsenal" for m in tomorrow["matches"])
 
 
 def test_collable_tip_has_pick_odds_and_raw_ref():
@@ -91,6 +96,32 @@ def test_blog_article_is_raw_ref_not_markdown():
         assert "# " not in blob
         for match in slate["matches"]:
             assert "blog/" not in (match.get("raw_ref") or "")
+
+
+def test_unlock_json_on_page_fills_locked_tip():
+    fi = _load_fi()
+    html = """
+    <section id="day-2026-11-07" class="day">
+    <section data-league="premier-league" class="pgroup">
+    <h3 class="n">Premier League</h3>
+    <a href="/predictions/arsenal-vs-hull-city-2026-11-07/" class="prow is-locked" data-day="2026-11-07" data-home="Arsenal" data-away="Hull City">
+    <span class="sr-only">Tip and odds locked</span>
+    <script type="application/json" data-unlock>{"m":91,"t":[["best","1x2","home",0.8579,1.17,0,null]],"p":[0.8579,0.1054,0.0367]}</script>
+    <time datetime="2026-11-07T15:00:00+00:00">15:00</time>
+    <span class="xt-call locked-call">Locked tip</span>
+    </a>
+    </section>
+    </section>
+    """
+    slate = fi.parse_html(html, competition="Premier League", captured_at="2026-11-07T10:00:00Z")
+    validate_instance(slate, "schema_slate.json")
+    row = slate["matches"][0]
+    assert row["home"] == "Arsenal"
+    assert row["away"] == "Hull City"
+    assert row["pick"] == "1"
+    assert row["model_pct"] == 0.8579
+    assert row["odds"]["pick"] == 1.17
+    assert row["odds"]["1x2"]["home"] == 1.17
 
 
 def test_empty_html_is_empty_list_not_crash():

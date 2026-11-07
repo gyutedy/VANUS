@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html as htmlmod
+import json
 import re
 from datetime import datetime, timezone
 from typing import Any
@@ -49,6 +50,11 @@ _PRED_SLUG = re.compile(
 _BLOG_HREF = re.compile(r'href="([^"]*/blog/([^"/?#]+)/?)"', re.I)
 _ISO_DATE = re.compile(r"(\d{4}-\d{2}-\d{2})")
 _LOCKED = re.compile(r"\bis-lock\b|\blocked-call\b|Locked tip", re.I)
+_UNLOCK = re.compile(
+    r'<script\b[^>]*type="application/json"[^>]*data-unlock[^>]*>([\s\S]*?)</script>'
+    r'|<script\b[^>]*data-unlock[^>]*type="application/json"[^>]*>([\s\S]*?)</script>',
+    re.I,
+)
 _SKIP_BLOG = {"topic", "rss", "page"}
 _SKIP_COMP = {"free picks", "free pick", "unknown"}
 _LEAGUE_NAMES = {
@@ -102,25 +108,29 @@ def parse_slates(
     captured_at: str | None = None,
     source_url: str | None = None,
 ) -> list[dict[str, Any]]:
-    date = slate_date or _slate_date_from_html(html) or _today_utc()
     cap = captured_at or _now_utc()
-    body = _today_body(html, date)
-    grouped: dict[str, list[dict[str, Any]]] = {}
-    order: list[str] = []
-    for attrs, inner in _PGROUP.findall(body):
-        comp = _competition(attrs, inner)
-        if _norm(comp) in _SKIP_COMP:
-            continue
-        for row_attrs, row_inner in _prows(inner):
-            parsed = _parse_prow(row_attrs, row_inner, date)
-            if parsed is None:
+    fallback = slate_date or _slate_date_from_html(html) or _today_utc()
+    days = list(_DAY.finditer(html))
+    chunks = [(m.group(1), m.group(2)) for m in days] if days else [(fallback, html)]
+    grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    order: list[tuple[str, str]] = []
+    for section_date, body in chunks:
+        for attrs, inner in _PGROUP.findall(body):
+            comp = _competition(attrs, inner)
+            if _norm(comp) in _SKIP_COMP:
                 continue
-            grouped.setdefault(comp, [])
-            if comp not in order:
-                order.append(comp)
-            if not _dup(grouped[comp], parsed):
-                grouped[comp].append(parsed)
-    return [_make_slate(comp, date, cap, grouped[comp], source_url) for comp in order]
+            for row_attrs, row_inner in _prows(inner):
+                parsed = _parse_prow(row_attrs, row_inner, section_date)
+                if parsed is None:
+                    continue
+                day = parsed.pop("_slate_date", section_date)
+                key = (day, comp)
+                grouped.setdefault(key, [])
+                if key not in order:
+                    order.append(key)
+                if not _dup(grouped[key], parsed):
+                    grouped[key].append(parsed)
+    return [_make_slate(comp, day, cap, grouped[(day, comp)], source_url) for day, comp in order]
 
 
 def parse_blog_refs(html: str) -> list[str]:
@@ -170,15 +180,9 @@ def _prows(block: str) -> list[tuple[str, str]]:
 
 
 def _parse_prow(attrs: str, inner: str, slate_date: str) -> dict[str, Any] | None:
-    href = _first(_HREF, attrs) or ""
+    href = _first(_HREF, attrs) or _first(_HREF, inner) or ""
     slug = _PRED_SLUG.search(href)
-    day = _first(_DATA_DAY, attrs)
-    if slug:
-        kick_date = f"{slug.group(3)}-{slug.group(4)}-{slug.group(5)}"
-        if kick_date != slate_date:
-            return None
-    elif day and day != slate_date:
-        return None
+    day = _match_day(attrs, inner, slug, slate_date)
     home, away = _teams(attrs, inner, slug)
     if not home or not away:
         return None
@@ -186,13 +190,28 @@ def _parse_prow(attrs: str, inner: str, slate_date: str) -> dict[str, Any] | Non
     return {
         "home": home,
         "away": away,
-        "kickoff": _kickoff(inner, slug, slate_date),
+        "kickoff": _kickoff(inner, slug, day),
         "score": None,
         "pick": pick,
         "model_pct": model_pct,
         "odds": odds,
         "raw_ref": _raw_ref(href, home, away),
+        "_slate_date": day,
     }
+
+
+def _match_day(attrs: str, inner: str, slug: re.Match[str] | None, fallback: str) -> str:
+    if slug:
+        return f"{slug.group(3)}-{slug.group(4)}-{slug.group(5)}"
+    day = _first(_DATA_DAY, attrs)
+    if day:
+        return day
+    raw = _first(_TIME, inner)
+    if raw:
+        stamp = _to_utc_z(raw)
+        if len(stamp) >= 10 and stamp[4] == "-" and stamp[7] == "-":
+            return stamp[:10]
+    return fallback
 
 
 def _teams(attrs: str, inner: str, slug: re.Match[str] | None) -> tuple[str, str]:
@@ -219,6 +238,9 @@ def _kickoff(inner: str, slug: re.Match[str] | None, slate_date: str) -> str:
 
 
 def _markets(inner: str) -> tuple[str | None, float | None, dict[str, Any]]:
+    unlocked = _markets_from_unlock(inner)
+    if unlocked is not None:
+        return unlocked
     call = _plain(_first(_XT_CALL, inner) or "")
     locked = bool(_LOCKED.search(inner) or _LOCKED.search(call))
     pick = None if locked or not call else call
@@ -248,6 +270,77 @@ def _markets(inner: str) -> tuple[str | None, float | None, dict[str, Any]]:
             key = "yes" if sel.lower() == "yes" else "no"
             odds.setdefault("btts", {})[key] = odd
     return pick, model_pct, odds
+
+
+def _markets_from_unlock(inner: str) -> tuple[str | None, float | None, dict[str, Any]] | None:
+    m = _UNLOCK.search(inner)
+    if not m:
+        return None
+    raw = (m.group(1) or m.group(2) or "").strip()
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return None
+    tips = data.get("t") if isinstance(data, dict) else None
+    if not isinstance(tips, list) or not tips:
+        return None
+    best = None
+    for row in tips:
+        if isinstance(row, list) and row and row[0] == "best":
+            best = row
+            break
+    if best is None:
+        best = next((row for row in tips if isinstance(row, list) and len(row) >= 5), None)
+    if not isinstance(best, list) or len(best) < 5:
+        return None
+    market = str(best[1] or "")
+    selection = str(best[2] or "")
+    model_pct = best[3] if isinstance(best[3], (int, float)) else None
+    price = best[4] if isinstance(best[4], (int, float)) else _float(str(best[4]) if best[4] is not None else None)
+    pick = _unlock_pick(market, selection)
+    odds: dict[str, Any] = {}
+    if price is not None:
+        odds["pick"] = float(price)
+        _apply_unlock_market(odds, market, selection, float(price))
+    return pick, float(model_pct) if isinstance(model_pct, (int, float)) else None, odds
+
+
+def _unlock_pick(market: str, selection: str) -> str:
+    market = market.lower()
+    sel = selection.strip()
+    mapping = {
+        "home": "1",
+        "draw": "X",
+        "away": "2",
+        "yes": "BTTS_YES",
+        "no": "BTTS_NO",
+    }
+    if market in {"1x2", "result"}:
+        return mapping.get(sel.lower(), sel)
+    if market == "dc":
+        return sel.upper()
+    if market.startswith("ou"):
+        line = market[2:]
+        if line.isdigit() and len(line) == 2:
+            line = f"{line[0]}.{line[1]}"
+        return f"{sel.title()} {line}".strip()
+    if market == "btts":
+        return mapping.get(sel.lower(), sel)
+    return sel or market
+
+
+def _apply_unlock_market(odds: dict[str, Any], market: str, selection: str, price: float) -> None:
+    market = market.lower()
+    sel = selection.lower()
+    if market in {"1x2", "result"}:
+        side = {"home": "home", "draw": "draw", "away": "away"}.get(sel)
+        if side:
+            odds["1x2"] = {side: price}
+    elif market.startswith("ou"):
+        key = "over" if "over" in sel else "under"
+        odds.setdefault("ou_25" if market in {"ou25", "ou_25"} else market, {})[key] = price
+    elif market == "btts":
+        odds.setdefault("btts", {})["yes" if sel == "yes" else "no"] = price
 
 
 def _slate_date_from_html(html: str) -> str | None:

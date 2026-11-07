@@ -44,3 +44,7 @@
 2026-11-07 — PredictLix hub today.
 - Un GET `https://predictlix.com/predictions/`. `parse_slates` decoupe par h2 ligue.
 - Pas 140 GET. Pas de spider. Whitelist = cette URL.
+
+2026-11-07 — FootInsights toutes dates + tips publics.
+- `parse_slates` lit chaque `section#day-YYYY-MM-DD` de `/predictions/`.
+- JSON `data-unlock` deja dans le HTML public → pick/cote. Pas de login. Locked sans JSON = pick null.
