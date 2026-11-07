@@ -17,4 +17,5 @@
 - PHASE-07 : F01 SCRYER. `scryer.py` + `run.py`, 64 tests. Cle composite ligue+date+creneau±45 min+noms. Alias auto. Athletic Club ≠ Athletic Bilbao. Pas F02.
 - PHASE-08 : F02 snapshots + export. `mnemos.py` + `run.py`. 2 polls → 2 points. Export JSON/CSV relit sans re-fetch. Pas blogs.
 - PHASE-09 : F02 blogs. `blogs.py`. 1er run `new` ; identique `unchanged` ; contenu change `updated`. Pas miroir public. Pas F03.
-- Prochaine session : PHASE-10 F03 evolution + alertes.
+- PHASE-10 : F03 evolution + alertes. `speculum.py` + `run.py`. 3 horodatages → 3 points. 2/3 = alarm. 1/3 = rien. Fingerprint. Pinnacle absent ≠ desaccord. Pas CELL.
+- Prochaine session : PHASE-11 F05 CELL.

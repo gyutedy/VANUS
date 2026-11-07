@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-09 F02 blogs done (2026-11-07).
+Priorise. PHASE-10 F03 evolution + alertes done (2026-11-07).
 
 ---
 
@@ -26,7 +26,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-07 F01 SCRYER
 - [x] PHASE-08 F02 snapshots + export
 - [x] PHASE-09 F02 blogs
-- [ ] PHASE-10 F03 evolution + alertes
+- [x] PHASE-10 F03 evolution + alertes
 - [ ] PHASE-11 F05 CELL
 - [ ] PHASE-12 F04 CIPHER
 - [ ] PHASE-13 TARIEL + PA
@@ -58,10 +58,10 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 
 ## P4 — F03 SPECULUM
 
-- [ ] Timeline 10h → 12h → 14h, une ligne par index
-- [ ] Pinnacle : champ a part si deja dans la page
-- [ ] Alarme a 2 ; jackpot si toutes les sources trouvees
-- [ ] Absent ≠ vote ; meme issue (ex. domicile), pas le pick qui change de bord
+- [x] Timeline 10h → 12h → 14h, une ligne par index
+- [x] Pinnacle : champ a part si deja dans la page
+- [x] Alarme a 2 ; jackpot si toutes les sources trouvees
+- [x] Absent ≠ vote ; meme issue (ex. domicile), pas le pick qui change de bord
 
 ## P5 — F05 CELL puis F04 CIPHER
 
