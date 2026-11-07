@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-07 F01 SCRYER done (2026-11-07).
+Priorise. PHASE-08 F02 snapshots + export done (2026-11-07).
 
 ---
 
@@ -24,7 +24,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-05 F00 FootInsights
 - [x] PHASE-06 F00 BeSoccer + runner
 - [x] PHASE-07 F01 SCRYER
-- [ ] PHASE-08 F02 snapshots + export
+- [x] PHASE-08 F02 snapshots + export
 - [ ] PHASE-09 F02 blogs
 - [ ] PHASE-10 F03 evolution + alertes
 - [ ] PHASE-11 F05 CELL
@@ -52,9 +52,9 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 
 ## P3 — F02 MNEMOS
 
-- [ ] Snapshot par match x source x marche x horodatage
+- [x] Snapshot par match x source x marche x horodatage
 - [ ] Copies blog markdown + hash
-- [ ] Export JSON / CSV vers `ARCHIVUM/exports/`
+- [x] Export JSON / CSV vers `ARCHIVUM/exports/`
 
 ## P4 — F03 SPECULUM
 

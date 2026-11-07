@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : PHASE-07 F01 SCRYER **done**. Cle composite ligue + date + creneau ±45 min + noms normalises. Alias auto. Echec = tiroir vide. Prochaine = PHASE-08 (F02 snapshots + export) puis STOP.
+**Etat** : PHASE-08 F02 snapshots + export **done**. Snapshot match × source × marche × `captured_at`. Export JSON/CSV `ARCHIVUM/exports/`. Prochaine = PHASE-09 (F02 blogs) puis STOP.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
@@ -29,13 +29,14 @@
 - `pytest` + fixtures JSON golden + HTML PredictLix + DSP + MetaPred + FootInsights + BeSoccer (`tests/`)
 - `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `besoccer.py` + `run.py` + `runner.py`
 - `F01_SCRYER/CODEBASE/scryer.py` + `run.py` (cle composite, aliases.json auto, fuzzy seuil 0.90)
-- `liber_vanus.json` status `phase_07_scryer`
+- `F02_MNEMOS/CODEBASE/mnemos.py` + `run.py` (snapshots + export JSON/CSV)
+- `liber_vanus.json` status `phase_08_mnemos`
 
 ## 2. CE QUI N'EXISTE PAS (volontaire)
 
 - Aucun GET reseau dans les tests (fixtures locales ; 406 mocke)
 - Aucun parseur hors F00
-- Aucun snapshot F02 / evolution F03
+- Aucune copie blog F02 / evolution F03
 - Aucun `tariel.py` / `pa_task.py` / `pa_web.py`
 - Aucune dependance pip metier (hors pytest/jsonschema)
 - Aucun secret, aucun jeton
@@ -55,14 +56,14 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-PHASE-08 — F02 MNEMOS snapshots + export. Snapshot match × source × marche × `captured_at`. Export JSON/CSV `ARCHIVUM/exports/`. Puis STOP.
+PHASE-09 — F02 blogs. Copie locale + hash + `schema_blog.json`. 1er run `new` ; identique `unchanged` ; contenu change `updated`. Pas un miroir public. Puis STOP.
 
 Ordre impose, une frégate a la fois :
 
 1. `CONTRACTS/` — ne plus les bouger sans version
 2. F00 INFOCYTE — **fait** (PredictLix, DSP, MetaPred, FootInsights, BeSoccer + runner)
 3. F01 SCRYER — **fait** (cle composite, alias auto, tiroir vide)
-4. F02 MNEMOS — snapshot SQLite / fichiers
+4. F02 MNEMOS — **fait** snapshots + export ; blogs = PHASE-09
 5. F03 SPECULUM — evolution + bandeau consensus
 6. F05 CELL — preview lisible
 7. F04 CIPHER — Telegram

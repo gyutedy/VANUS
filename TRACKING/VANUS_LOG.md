@@ -15,4 +15,5 @@
 - PHASE-05 : F00 FootInsights. `footinsights.py`, fixtures HTML, 47 tests. Tips → lignes match si collables ; article → `raw_ref` seulement. Pas BeSoccer.
 - PHASE-06 : F00 BeSoccer + runner. `besoccer.py` + `runner.py`, fixtures HTML, 56 tests. 406 = skip 0 retry. Indexes `enabled`, delai inter-sites. Pas F01.
 - PHASE-07 : F01 SCRYER. `scryer.py` + `run.py`, 64 tests. Cle composite ligue+date+creneau±45 min+noms. Alias auto. Athletic Club ≠ Athletic Bilbao. Pas F02.
-- Prochaine session : PHASE-08 F02 snapshots + export.
+- PHASE-08 : F02 snapshots + export. `mnemos.py` + `run.py`. 2 polls → 2 points. Export JSON/CSV relit sans re-fetch. Pas blogs.
+- Prochaine session : PHASE-09 F02 blogs.

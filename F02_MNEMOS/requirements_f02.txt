@@ -1,1 +1,1 @@
-# F02 MNEMOS — aucune dependance tant que CODEBASE est vide.
+# F02 MNEMOS — stdlib only (json, csv).
