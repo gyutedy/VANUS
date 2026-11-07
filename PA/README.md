@@ -2,9 +2,9 @@
 
 Hors doctrine. Pas une fregate.
 
-| Fichier (a venir) | Role |
+| Fichier | Role |
 |---|---|
-| `pa_task.py` | scheduled task → TARIEL |
+| `pa_task.py` | scheduled task → un reveil TARIEL |
 | `pa_web.py` | WSGI → F05 CELL seulement |
 
-Aucun des deux n'existe encore. Ne pas parser ici. Ne pas alerter ici.
+Ne parse pas. N'alerte pas. Secrets = env hote.

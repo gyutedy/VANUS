@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-12 F04 CIPHER Telegram done (2026-11-07).
+Priorise. PHASE-13 TARIEL + PA done (2026-11-07).
 
 ---
 
@@ -29,7 +29,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-10 F03 evolution + alertes
 - [x] PHASE-11 F05 CELL
 - [x] PHASE-12 F04 CIPHER
-- [ ] PHASE-13 TARIEL + PA
+- [x] PHASE-13 TARIEL + PA
 - [ ] PHASE-14 E2E + CI pytest
 
 ## P1 — F00 INFOCYTE (PHASE-02 a 06)
@@ -72,9 +72,9 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 
 ## P6 — TARIEL + PA
 
-- [ ] Poll delai reglable (defaut 2 h, plancher 15–30 min)
-- [ ] Jusqu'au KO, option resserrer dans les 3 h avant
-- [ ] `PA/pa_task.py` + `PA/pa_web.py` (squelettes, pas encore)
+- [x] Poll delai reglable (defaut 2 h, plancher 30 min)
+- [x] Jusqu'au KO (portes lecture / alerte)
+- [x] `PA/pa_task.py` + `PA/pa_web.py`
 
 ## Hors scope (ne pas faire)
 

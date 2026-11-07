@@ -20,4 +20,5 @@
 - PHASE-10 : F03 evolution + alertes. `speculum.py` + `run.py`. 3 horodatages → 3 points. 2/3 = alarm. 1/3 = rien. Fingerprint. Pinnacle absent ≠ desaccord. Pas CELL.
 - PHASE-11 : F05 CELL menus + popup. `cell.py` + `run.py`. Lit OUT/ARCHIVUM. Popup 1 match, accordéons, tiroir vide = pas trouve. Zero fetch sortant. Pas CIPHER.
 - PHASE-12 : F04 CIPHER Telegram. `cipher.py` + `run.py`. API mockee. 2x meme alerte = 1 send. JACKPOT ≠ ALARME. Token absent = log, pas crash. Pas TARIEL.
-- Prochaine session : PHASE-13 TARIEL + PA.
+- PHASE-13 : TARIEL + PA. `tariel.py` + `gates.py`. Horloge fake, 2 ticks → F00 puis F01… OUT. TARIEL sans HTML. `pa_task` une passe. `pa_web` GET `/`. Pas E2E.
+- Prochaine session : PHASE-14 E2E + CI pytest.

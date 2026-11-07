@@ -2,18 +2,18 @@
 
 VANUS ne tourne pas sur GitHub Actions. Le nerf est `PA/`.
 
-## Pieces (a venir, pas encore codees)
+## Pieces
 
 | Fichier | Role |
 |---|---|
-| `PA/pa_task.py` | Scheduled task. Reveille TARIEL. Ne parse pas. |
+| `PA/pa_task.py` | Scheduled task. Un reveil TARIEL. Ne parse pas. |
 | `PA/pa_web.py` | WSGI. Sert F05 CELL seulement. |
 
 ## Contraintes hote
 
 - Always-on = plan payant. Un scheduled task toutes les N minutes suffit.
 - Un process web = la preview.
-- Delai defaut 2 h, reglable, plancher 15–30 min.
+- Delai defaut 2 h, reglable, plancher 30 min (`F00_INFOCYTE/IN/sources.json`).
 - Secrets (Telegram, etc.) : env PythonAnywhere, jamais le git.
 
 ## Ce que PA n'est pas

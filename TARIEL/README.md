@@ -2,6 +2,10 @@
 
 Coordonne. Ne calcule pas. Ne parse pas. N'alerte pas.
 
-`CODEBASE/tariel.py` et `gates.py` n'existent pas encore.
+| Fichier | Role |
+|---|---|
+| `CODEBASE/tariel.py` | poll + subprocess des fregates |
+| `CODEBASE/gates.py` | portes lecture / alerte |
+| `CODEBASE/run.py` | `--once` ou boucle |
 
-Portes prevues : lecture (poll) / alerte (emission F03→F04). L'humain reste le dernier mot pour parier.
+Portes : lecture (F00→F05) / alerte (F03 OUT → F04). L'humain reste le dernier mot pour parier.
