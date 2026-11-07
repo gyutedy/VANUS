@@ -1,0 +1,23 @@
+{
+  "contract": "vanus.evolution.v1",
+  "match_key": "laliga:2026-11-07:athletic:valencia",
+  "market": "1x2",
+  "selection": "home",
+  "lines": [
+    {
+      "index": "predictlix",
+      "role": "index",
+      "points": [
+        {"at": "2026-11-07T10:00:00Z", "odds": 1.90},
+        {"at": "2026-11-07T12:00:00Z", "odds": 1.85}
+      ]
+    },
+    {
+      "index": "pinnacle",
+      "role": "pinnacle_ref",
+      "points": [
+        {"at": "2026-11-07T10:00:00Z", "odds": 1.88}
+      ]
+    }
+  ]
+}

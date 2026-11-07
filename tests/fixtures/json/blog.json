@@ -1,0 +1,10 @@
+{
+  "contract": "vanus.blog.v1",
+  "index": "footinsights",
+  "url": "https://footinsights.com/blog/example",
+  "title": "Example",
+  "captured_at": "2026-11-07T10:00:00Z",
+  "content_hash": "sha256:0",
+  "path": "ARCHIVUM/blogs/footinsights/example.md",
+  "status": "new"
+}

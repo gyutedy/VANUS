@@ -1,7 +1,7 @@
 {
   "contract": "vanus.liber.v1",
   "fleet": "VANUS",
-  "status": "docs_only",
+  "status": "phase_01_harness",
   "opened_at": "2026-11-07",
   "frigates": {
     "F00_INFOCYTE": "empty",
@@ -13,5 +13,5 @@
     "TARIEL": "empty"
   },
   "runtime": "pythonanywhere",
-  "note": "VANUS_CUSTOS n'existe pas encore. Ne pas modifier ce fichier a la main une fois le custos en place."
+  "note": "Seul VANUS_CUSTOS.py touche ce fichier."
 }

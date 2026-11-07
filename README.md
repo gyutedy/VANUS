@@ -85,6 +85,10 @@ Delai de poll reglable (defaut 2 h, plancher 15–30 min). Jusqu'au coup d'envoi
 | `GUIDE_UTILISATION.md` | Operateur PythonAnywhere |
 | `TRACKING/` | Journaux |
 | `docs/` | Guides numerotes |
+| `docs/05_IMPLEMENTATION.md` | 14 phases, une par session |
+| `VANUS_CUSTOS.py` | Seul ecrivain de `liber_vanus.json` |
+
+Tests : `python3 -m pytest` (fixtures locales, pas de reseau).
 
 ---
 

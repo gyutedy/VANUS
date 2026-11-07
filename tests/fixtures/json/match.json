@@ -1,0 +1,14 @@
+{
+  "contract": "vanus.match.v1",
+  "match_key": "laliga:2026-11-07:athletic:valencia",
+  "competition": "LaLiga",
+  "slate_date": "2026-11-07",
+  "home": "Athletic Club",
+  "away": "Valencia",
+  "kickoff": "2026-11-07T20:00:00Z",
+  "score": null,
+  "indexes": {
+    "predictlix": {"pick": "1"},
+    "dailysportpick": null
+  }
+}

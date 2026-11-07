@@ -21,4 +21,4 @@ Toute violation est une heresie. On ne "fait pas un petit fix". On refuse.
 15. **Consensus avec des absents.** 2/3 alignes se dit 2/3. Pas "tous".
 16. **Republication des blogs.** Copie locale pour lecture perso. Pas un miroir public.
 17. **Pari automatique.** VANUS ne place rien.
-18. **Code metier avant GO.** Ce commit est docs + structure. Parser avant la porte = heresie de calendrier.
+18. **Hors phase.** Une session = la phase courante de `docs/05_IMPLEMENTATION.md`. Parser avant PHASE-02, ou enchainer 02+03, = heresie de calendrier.

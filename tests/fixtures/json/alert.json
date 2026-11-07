@@ -1,0 +1,13 @@
+{
+  "contract": "vanus.alert.v1",
+  "match_key": "laliga:2026-11-07:athletic:valencia",
+  "level": "alarm",
+  "market": "1x2",
+  "selection": "home",
+  "direction": "shortening",
+  "agreeing": ["predictlix", "metapred"],
+  "found": ["predictlix", "metapred", "dailysportpick"],
+  "pinnacle_agrees": null,
+  "fingerprint": "laliga:2026-11-07:athletic:valencia:1x2:home:shortening:predictlix+metapred",
+  "at": "2026-11-07T12:00:00Z"
+}

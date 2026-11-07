@@ -1,0 +1,22 @@
+{
+  "contract": "vanus.slate.v1",
+  "index": "predictlix",
+  "competition": "LaLiga",
+  "slate_date": "2026-11-07",
+  "captured_at": "2026-11-07T10:00:00Z",
+  "source_url": "https://predictlix.com/",
+  "matches": [
+    {
+      "home": "Athletic Club",
+      "away": "Valencia",
+      "kickoff": "2026-11-07T20:00:00Z",
+      "score": null,
+      "pick": "1",
+      "model_pct": 0.42,
+      "odds": {
+        "1x2": {"home": 1.85, "draw": 3.4, "away": 4.2}
+      },
+      "raw_ref": "athletic-valencia"
+    }
+  ]
+}

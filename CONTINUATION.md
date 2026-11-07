@@ -8,9 +8,10 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : structure + docs + contrats. **Aucun code metier.**
+**Etat** : PHASE-01 harness **done**. Aucun parseur. Prochaine = PHASE-02 (PredictLix) puis STOP.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
+**Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
 
 ---
 
@@ -23,13 +24,16 @@
 - Whitelist sources (intention) dans `ARCHIVUM/rules/whitelist_sources.md`
 - `TODO.md` : chantier priorise
 - `GUIDE_UTILISATION.md` : ce que l'operateur fera sur PythonAnywhere
-- Guides `docs/01` a `docs/04`
+- Guides `docs/01` a `docs/05`
+- `VANUS_CUSTOS.py` (seul a ecrire `liber_vanus.json`)
+- `pytest` + fixtures JSON golden (`tests/`)
+- `liber_vanus.json` status `phase_01_harness`
 
 ## 2. CE QUI N'EXISTE PAS (volontaire)
 
 - Aucun parseur HTML
-- Aucun `VANUS_CUSTOS.py` / `tariel.py` / `pa_task.py` / `pa_web.py`
-- Aucune dependance pip metier
+- Aucun `tariel.py` / `pa_task.py` / `pa_web.py`
+- Aucune dependance pip metier (hors pytest/jsonschema)
 - Aucun secret, aucun jeton
 
 ## 3. DECISIONS FIGEES
@@ -45,7 +49,9 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 7. 406 BeSoccer = skip. Pas de deguisement.
 8. PythonAnywhere : poll + preview. Delai reglable, defaut 2 h.
 
-## 4. PROCHAINE ETAPE (quand le Warsmith dit GO code)
+## 4. PROCHAINE ETAPE
+
+PHASE-02 — F00 PredictLix. Fixture HTML locale, un site, `schema_slate.json`. Puis STOP. Pas DSP.
 
 Ordre impose, une frégate a la fois :
 
@@ -69,6 +75,7 @@ Ne pas commencer par la preview. CELL ne calcule rien.
 | UX popup | `docs/02_POPUP_ACCORDEONS.md` |
 | Alias | `docs/03_ALIAS.md` |
 | Alertes | `docs/04_ALERTES_TELEGRAM.md` |
+| 14 phases | `docs/05_IMPLEMENTATION.md` |
 
 ---
 

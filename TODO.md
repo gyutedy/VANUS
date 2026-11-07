@@ -11,8 +11,28 @@ Priorise. Rien de ceci n'est commence (docs only, 2026-11-07).
 - [x] README, CONTINUATION, VERBUM, HERESIE
 - [x] Contrats schemas (vides de donnees, pas de code)
 - [x] Repo public GitHub
+- [x] Plan 14 phases (`docs/05_IMPLEMENTATION.md`)
 
-## P1 — F00 INFOCYTE (premier code, plus tard)
+## Phases (une session = une phase)
+
+Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
+
+- [x] PHASE-01 Harness
+- [ ] PHASE-02 F00 PredictLix
+- [ ] PHASE-03 F00 DailySportPick
+- [ ] PHASE-04 F00 MetaPred
+- [ ] PHASE-05 F00 FootInsights
+- [ ] PHASE-06 F00 BeSoccer + runner
+- [ ] PHASE-07 F01 SCRYER
+- [ ] PHASE-08 F02 snapshots + export
+- [ ] PHASE-09 F02 blogs
+- [ ] PHASE-10 F03 evolution + alertes
+- [ ] PHASE-11 F05 CELL
+- [ ] PHASE-12 F04 CIPHER
+- [ ] PHASE-13 TARIEL + PA
+- [ ] PHASE-14 E2E + CI pytest
+
+## P1 — F00 INFOCYTE (PHASE-02 a 06)
 
 - [ ] Contrat `schema_slate.json` respecte par un premier parseur
 - [ ] PredictLix : page today, par competition, unite = match
