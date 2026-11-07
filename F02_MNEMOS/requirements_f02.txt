@@ -1,1 +1,1 @@
-# F02 MNEMOS — stdlib only (json, csv).
+# F02 MNEMOS — stdlib only (json, csv, hashlib).
