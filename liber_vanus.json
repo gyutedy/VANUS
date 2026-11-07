@@ -1,14 +1,14 @@
 {
   "contract": "vanus.liber.v1",
   "fleet": "VANUS",
-  "status": "phase_11_cell",
+  "status": "phase_12_cipher",
   "opened_at": "2026-11-07",
   "frigates": {
     "F00_INFOCYTE": "besoccer",
     "F01_SCRYER": "scryer",
     "F02_MNEMOS": "blogs",
     "F03_SPECULUM": "speculum",
-    "F04_CIPHER": "empty",
+    "F04_CIPHER": "cipher",
     "F05_CELL": "cell",
     "TARIEL": "empty"
   },

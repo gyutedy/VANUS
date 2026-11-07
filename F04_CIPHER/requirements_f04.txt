@@ -1,1 +1,1 @@
-# F04 CIPHER — aucune dependance tant que CODEBASE est vide.
+# F04 CIPHER — stdlib only (urllib, json). Token = env hote, jamais git.
