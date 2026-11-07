@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-13 TARIEL + PA done (2026-11-07).
+Priorise. PHASE-14 E2E + CI pytest done (2026-11-07). 14 phases closes.
 
 ---
 
@@ -30,7 +30,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-11 F05 CELL
 - [x] PHASE-12 F04 CIPHER
 - [x] PHASE-13 TARIEL + PA
-- [ ] PHASE-14 E2E + CI pytest
+- [x] PHASE-14 E2E + CI pytest
 
 ## P1 — F00 INFOCYTE (PHASE-02 a 06)
 

@@ -60,7 +60,8 @@ Pas GitHub Actions. **PythonAnywhere** :
 - `PA/pa_task.py` — tache planifiee → TARIEL
 - `PA/pa_web.py` — WSGI → F05 seulement
 
-Delai de poll reglable (defaut 2 h, plancher 15–30 min). Jusqu'au coup d'envoi.
+Delai de poll reglable (defaut 2 h, plancher 30 min). Jusqu'au coup d'envoi.
+CI GitHub : pytest only (pas de cron de capture).
 
 ---
 

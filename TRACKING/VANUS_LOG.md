@@ -21,4 +21,5 @@
 - PHASE-11 : F05 CELL menus + popup. `cell.py` + `run.py`. Lit OUT/ARCHIVUM. Popup 1 match, accordéons, tiroir vide = pas trouve. Zero fetch sortant. Pas CIPHER.
 - PHASE-12 : F04 CIPHER Telegram. `cipher.py` + `run.py`. API mockee. 2x meme alerte = 1 send. JACKPOT ≠ ALARME. Token absent = log, pas crash. Pas TARIEL.
 - PHASE-13 : TARIEL + PA. `tariel.py` + `gates.py`. Horloge fake, 2 ticks → F00 puis F01… OUT. TARIEL sans HTML. `pa_task` une passe. `pa_web` GET `/`. Pas E2E.
-- Prochaine session : PHASE-14 E2E + CI pytest.
+- PHASE-14 : E2E flotte + CI. HTML → slates → matchs → snapshots → evolution/alert → CELL HTML + CIPHER mock. Workflow GitHub pytest only. `harness_ready`.
+- 14 phases closes. Flotte testable hors PA.

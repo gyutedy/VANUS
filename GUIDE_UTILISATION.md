@@ -1,42 +1,53 @@
 # GUIDE D'UTILISATION — VANUS
 
-Operateur : PythonAnywhere. Pas GitHub Actions.
+Operateur : PythonAnywhere. Pas GitHub Actions (CI pytest seulement).
 
-Ce guide decrit **ce qui sera**. Rien n'est encore deploye (docs only).
+Flotte testable hors PA : `python3 -m pytest`.
 
 ---
 
-## 1. Ce que tu auras
+## 1. Pieces
 
-| Piece | Role |
-|---|---|
-| Tache planifiee | `PA/pa_task.py` reveille TARIEL (defaut toutes les 2 h) |
-| Web app | `PA/pa_web.py` sert F05 CELL |
-| Preview | menus index → competition → matchs ; popup un match |
-| Telegram | alarme (2 sources) / jackpot (toutes) |
+| Piece | Role | Commande |
+|---|---|---|
+| Tests | fixtures locales, pas de reseau | `python3 -m pytest` |
+| Tache planifiee | un reveil TARIEL | `python3 PA/pa_task.py` |
+| Orchestrateur | une passe | `python3 TARIEL/CODEBASE/run.py --once` |
+| Web app | WSGI → F05 CELL | `PA/pa_web.py` (`application`) |
+| Telegram | env hote | `VANUS_TELEGRAM_TOKEN` + `VANUS_TELEGRAM_CHAT_ID` |
 
 ## 2. Rythme
 
-- Defaut : lire quelques minutes, dormir ~2 h, jusqu'au coup d'envoi.
-- Delai reglable dans `F00_INFOCYTE/IN/` (plancher 15–30 min).
-- Option future : resserrer dans les 3 h avant KO.
+- Defaut : `poll_minutes` 120 dans `F00_INFOCYTE/IN/sources.json`.
+- Plancher 30 min. TARIEL s'arrete apres le KO.
+- Preview : menus index → competition → matchs ; popup un match.
 
 ## 3. Comment lire la salle (CELL)
 
 1. Choisir un **index** (PredictLix, DailySportPick, MetaPred, …).
-2. Choisir une **competition** (Liga, J1, C1, …).
-3. Voir **tous les matchs du jour** de cette competition, comme chez eux.
+2. Choisir une **competition**.
+3. Voir **tous les matchs du jour** de cette competition.
 4. Cliquer un match → **popup unique**.
-5. Accordéons : un ouvert a la fois (fiche d'un index, detail, evolution).
+5. Accordéons : un ouvert a la fois.
 6. Marche par defaut : 1X2. Changeable dans la popup.
-7. Tiroir evolution : une ligne par index, meme axe horaire. Pinnacle en reference si presente.
+7. Tiroir evolution : une ligne par index. Pinnacle en reference si presente.
+
+Dump HTML local :
+
+```
+python3 F05_CELL/CODEBASE/run.py --in F05_CELL/IN --out F05_CELL/OUT
+```
 
 ## 4. Alertes
 
 - 2 sources dans le meme sens → alarme (bandeau CELL + Telegram).
-- Toutes les sources trouvees d'accord → jackpot (plus fort).
+- Toutes les sources trouvees d'accord → jackpot.
 - Une source absente n'est pas un vote.
-- Pinnacle dans le meme sens = jackpot "juge". Sans Pinnacle = jackpot "sites", plus petit.
+- Token absent : log, pas crash. Jamais de secret dans git.
+
+```
+python3 F04_CIPHER/CODEBASE/run.py --in F03_SPECULUM/OUT --out F04_CIPHER/OUT
+```
 
 ## 5. Export
 
@@ -47,7 +58,10 @@ Ce guide decrit **ce qui sera**. Rien n'est encore deploye (docs only).
 - Relier les alias a la main.
 - Lancer un crawl.
 - Demander a VANUS de placer un pari.
+- Cron GitHub de capture.
 
 ## 7. Reprise a froid
 
 Lire `CONTINUATION.md`, puis `TODO.md`.
+
+Greffe : `CONTRACTS/` + `F03_SPECULUM/OUT/`.

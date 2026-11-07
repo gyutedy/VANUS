@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-07
-**Etat** : PHASE-13 TARIEL + PA **done**. Poll 120 min (plancher 30). pa_task un reveil. pa_web WSGI → F05. Prochaine = PHASE-14 (E2E + CI pytest) puis STOP.
+**Etat** : PHASE-14 E2E + CI pytest **done**. Flotte testable hors PA. `liber_vanus.json` = `harness_ready`. Code autorise. Greffe = `CONTRACTS/` + `F03_SPECULUM/OUT/`.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
@@ -35,15 +35,16 @@
 - `F04_CIPHER/CODEBASE/cipher.py` + `run.py` (Telegram, fingerprint, token env)
 - `TARIEL/CODEBASE/tariel.py` + `gates.py` + `run.py` (poll, subprocess, portes)
 - `PA/pa_task.py` + `PA/pa_web.py` (un reveil ; WSGI → F05)
-- `liber_vanus.json` status `phase_13_tariel`
+- `.github/workflows/pytest.yml` (pytest only, pas de cron)
+- `liber_vanus.json` status `harness_ready`
 
 ## 2. CE QUI N'EXISTE PAS (volontaire)
 
 - Aucun GET reseau dans les tests (fixtures locales ; 406 mocke)
 - Aucun parseur hors F00
-- Aucun pipeline E2E / workflow CI pytest (PHASE-14)
 - Aucune dependance pip metier (hors pytest/jsonschema)
 - Aucun secret, aucun jeton
+- Aucun cron GitHub de capture
 
 ## 3. DECISIONS FIGEES
 
@@ -60,7 +61,7 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-PHASE-14 — E2E flotte + CI tests. Pipeline fixtures HTML → CELL + CIPHER mock. Workflow GitHub pytest only (pas de cron de capture). Puis STOP.
+14 phases closes. Hors session : operer sur PythonAnywhere. Ne pas reouvrir une phase sans besoin.
 
 Ordre impose, une frégate a la fois :
 
