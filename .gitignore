@@ -110,6 +110,9 @@
 **/.env.*.local
 *.pem
 *.key
+*.token
+**/.secrets/
+**/secrets/
 
 # Temporary files
 *.tmp

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vanus.local/contracts/schema_evolution.json",
+  "title": "VANUS evolution",
+  "description": "Une vue, N lignes. Meme marche, meme issue, axe horaire commun. Pinnacle = reference si deja vue.",
+  "type": "object",
+  "required": ["contract", "match_key", "market", "selection", "lines"],
+  "properties": {
+    "contract": { "const": "vanus.evolution.v1" },
+    "match_key": { "type": "string" },
+    "market": { "type": "string", "description": "Defaut 1x2. Changeable dans la popup." },
+    "selection": { "type": "string", "description": "Ex. home. Pas le pick qui change de bord." },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "points"],
+        "properties": {
+          "index": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": ["index", "pinnacle_ref"],
+            "default": "index"
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["at", "odds"],
+              "properties": {
+                "at": { "type": "string", "format": "date-time" },
+                "odds": { "type": ["number", "null"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "contract": "vanus.f00.in.v1",
+  "poll_minutes": 120,
+  "poll_floor_minutes": 30,
+  "indexes": [
+    { "id": "predictlix", "enabled": true },
+    { "id": "dailysportpick", "enabled": true },
+    { "id": "metapred", "enabled": true },
+    { "id": "footinsights", "enabled": true },
+    { "id": "besoccer", "enabled": true, "skip_on": [406] }
+  ],
+  "competitions": [],
+  "note": "Liste des ligues a remplir avant le premier poll. Pas d'URL hors whitelist."
+}

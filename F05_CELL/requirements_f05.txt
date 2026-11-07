@@ -1,0 +1,1 @@
+# F05 CELL — aucune dependance tant que CODEBASE est vide.

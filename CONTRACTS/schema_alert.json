@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vanus.local/contracts/schema_alert.json",
+  "title": "VANUS alert",
+  "description": "2 sources meme sens = alarme. Toutes les sources trouvees = jackpot. Absent ne vote pas.",
+  "type": "object",
+  "required": ["contract", "match_key", "level", "market", "selection", "agreeing", "found", "fingerprint"],
+  "properties": {
+    "contract": { "const": "vanus.alert.v1" },
+    "match_key": { "type": "string" },
+    "level": { "type": "string", "enum": ["alarm", "jackpot"] },
+    "market": { "type": "string" },
+    "selection": { "type": "string" },
+    "direction": { "type": "string", "enum": ["shortening", "drifting"] },
+    "agreeing": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+    "found": { "type": "array", "items": { "type": "string" } },
+    "pinnacle_agrees": { "type": ["boolean", "null"] },
+    "fingerprint": {
+      "type": "string",
+      "description": "Idempotence : meme mouvement = pas de rejeu Telegram."
+    },
+    "at": { "type": "string", "format": "date-time" }
+  }
+}

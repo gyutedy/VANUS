@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vanus.local/contracts/schema_match.json",
+  "title": "VANUS match",
+  "description": "Un match aligne. Une popup = une instance. Index manquant = tiroir vide, pas une fusion.",
+  "type": "object",
+  "required": ["contract", "match_key", "competition", "slate_date", "home", "away", "kickoff", "indexes"],
+  "properties": {
+    "contract": { "const": "vanus.match.v1" },
+    "match_key": { "type": "string", "minLength": 8 },
+    "competition": { "type": "string" },
+    "slate_date": { "type": "string", "format": "date" },
+    "home": { "type": "string" },
+    "away": { "type": "string" },
+    "kickoff": { "type": "string", "format": "date-time" },
+    "score": { "type": ["string", "null"] },
+    "indexes": {
+      "type": "object",
+      "description": "Cle = nom d'index. Valeur null = pas trouve (afficher le tiroir vide).",
+      "additionalProperties": {
+        "type": ["object", "null"]
+      }
+    }
+  }
+}

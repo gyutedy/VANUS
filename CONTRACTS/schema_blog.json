@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vanus.local/contracts/schema_blog.json",
+  "title": "VANUS blog copy",
+  "description": "Copie locale pour lecture perso. Pas un miroir public.",
+  "type": "object",
+  "required": ["contract", "index", "url", "title", "captured_at", "content_hash", "path"],
+  "properties": {
+    "contract": { "const": "vanus.blog.v1" },
+    "index": { "type": "string" },
+    "url": { "type": "string", "format": "uri" },
+    "title": { "type": "string" },
+    "captured_at": { "type": "string", "format": "date-time" },
+    "content_hash": { "type": "string" },
+    "path": { "type": "string", "description": "Chemin relatif sous ARCHIVUM/blogs/" },
+    "status": { "type": "string", "enum": ["new", "updated", "unchanged"] }
+  }
+}
