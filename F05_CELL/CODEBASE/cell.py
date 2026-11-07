@@ -26,7 +26,17 @@ INDEX_LABELS = {
     "vitibet": "Vitibet",
     "pinnacle": "Pinnacle",
 }
+INDEX_STROKES = {
+    "predictlix": "#c4a35a",
+    "dailysportpick": "#b87333",
+    "metapred": "#6b8f71",
+    "footinsights": "#7a8aa0",
+    "besoccer": "#a33b3b",
+    "vitibet": "#7a6b9a",
+    "pinnacle": "#e8e0d0",
+}
 EMPTY = "pas trouve"
+WAIT_SECOND = "attente 2e releve"
 _NON_ALNUM = re.compile(r"[^a-z0-9]+")
 
 
@@ -126,11 +136,14 @@ def render_home(store: Store) -> str:
     if not items:
         body = "<h1>CELL</h1><p>pas trouve</p>"
         return _page("CELL", body)
-    lis = "".join(
-        f'<li><a href="/i/{html.escape(name, quote=True)}">{html.escape(label(name))}</a></li>'
+    tiles = "".join(
+        f'<a class="dalle" href="/i/{html.escape(name, quote=True)}">'
+        f'<span class="dalle-k">{html.escape(name)}</span>'
+        f'<span class="dalle-l">{html.escape(label(name))}</span>'
+        f"</a>"
         for name in items
     )
-    body = f"<h1>CELL</h1><h2>Indexes</h2><ul>{lis}</ul>"
+    body = f'<h1>CELL</h1><h2>Indexes</h2><div class="dalles">{tiles}</div>'
     return _page("CELL", body)
 
 
@@ -372,7 +385,93 @@ def _evolution_drawer(evo: dict[str, Any] | None) -> str:
         )
         body_rows.append(f"<tr><td>{html.escape(at)}</td>{cells}</tr>")
     table = f"<table><thead><tr>{head}</tr></thead><tbody>{''.join(body_rows)}</tbody></table>"
-    return f'<details class="drawer"><summary>{title}</summary>{table}</details>'
+    chart = _evolution_svg(lines, stamps)
+    wait = f"<p class=\"wait\">{WAIT_SECOND}</p>" if len(stamps) < 2 else ""
+    return (
+        f'<details class="drawer" open><summary>{title}</summary>'
+        f"{wait}{chart}{table}</details>"
+    )
+
+
+def _evolution_svg(lines: list[dict[str, Any]], stamps: list[str]) -> str:
+    series: list[tuple[str, list[tuple[str, float]]]] = []
+    odds_all: list[float] = []
+    for line in lines:
+        pts: list[tuple[str, float]] = []
+        for point in line.get("points") or []:
+            at = str(point.get("at") or "")
+            raw = point.get("odds")
+            if at and isinstance(raw, (int, float)):
+                val = float(raw)
+                pts.append((at, val))
+                odds_all.append(val)
+        series.append((str(line.get("index") or ""), pts))
+    if not stamps or not odds_all:
+        return ""
+    width, height = 640, 220
+    left, right, top, bottom = 52, 18, 18, 36
+    inner_w = width - left - right
+    inner_h = height - top - bottom
+    lo, hi = min(odds_all), max(odds_all)
+    if hi - lo < 0.05:
+        hi = lo + 0.05
+    span = hi - lo
+
+    def x_at(at: str) -> float:
+        if len(stamps) == 1:
+            return left + inner_w / 2
+        return left + stamps.index(at) / (len(stamps) - 1) * inner_w
+
+    def y_at(odds: float) -> float:
+        return top + (1 - (odds - lo) / span) * inner_h
+
+    grid: list[str] = []
+    for i in range(5):
+        y = top + inner_h * i / 4
+        v = hi - span * i / 4
+        grid.append(
+            f'<line x1="{left}" y1="{y:.1f}" x2="{width - right}" y2="{y:.1f}" />'
+            f'<text x="{left - 6}" y="{y + 4:.1f}" text-anchor="end">{v:.2f}</text>'
+        )
+    marks: list[str] = []
+    if stamps:
+        marks.append(
+            f'<text x="{x_at(stamps[0]):.1f}" y="{height - 10}" text-anchor="middle">'
+            f"{html.escape(stamps[0])}</text>"
+        )
+        if len(stamps) > 1:
+            marks.append(
+                f'<text x="{x_at(stamps[-1]):.1f}" y="{height - 10}" text-anchor="middle">'
+                f"{html.escape(stamps[-1])}</text>"
+            )
+    paths: list[str] = []
+    for idx, (name, pts) in enumerate(series):
+        if not pts:
+            continue
+        color = INDEX_STROKES.get(name, ("#c4a35a", "#b87333", "#6b8f71", "#7a8aa0")[idx % 4])
+        coords = " ".join(f"{x_at(at):.1f},{y_at(val):.1f}" for at, val in pts)
+        if len(pts) >= 2:
+            paths.append(
+                f'<polyline fill="none" stroke="{color}" stroke-width="2" points="{coords}" />'
+            )
+        for at, val in pts:
+            paths.append(
+                f'<circle cx="{x_at(at):.1f}" cy="{y_at(val):.1f}" r="4" fill="{color}" />'
+            )
+    legend = "".join(
+        f'<span class="swatch" style="background:{INDEX_STROKES.get(name, "#c4a35a")}"></span>'
+        f"{html.escape(label(name))}"
+        for name, pts in series
+        if pts
+    )
+    return (
+        f'<div class="evo-chart"><svg viewBox="0 0 {width} {height}" '
+        f'role="img" aria-label="evolution">'
+        f'<rect class="plot" x="0" y="0" width="{width}" height="{height}" />'
+        f'<g class="grid">{"".join(grid)}</g>'
+        f"{''.join(paths)}{''.join(marks)}</svg>"
+        f'<p class="legend">{legend}</p></div>'
+    )
 
 
 def _match_title(match: dict[str, Any]) -> str:
@@ -393,23 +492,54 @@ def _write(path: Path, body: str) -> Path:
 
 
 def _page(title: str, body: str) -> str:
+    plaque = (
+        '<header class="plaque">'
+        '<p class="officio">Officio Assassinorum</p>'
+        '<p class="vanus">TEMPLE VANUS</p>'
+        '<p class="cellmark">CELL</p>'
+        "</header>"
+    )
     return (
         "<!DOCTYPE html><html lang=\"fr\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
         f"<title>{html.escape(title)}</title>"
         "<style>"
-        "body{font:16px/1.45 sans-serif;max-width:52rem;margin:1.5rem auto;padding:0 1rem;color:#111}"
-        "a{color:#123}"
-        ".head{border-bottom:1px solid #ccc;padding-bottom:.5rem}"
-        ".banner{padding:.5rem .75rem;border:1px solid #333}"
-        ".banner.alarm{background:#f4e6c4}"
-        ".banner.jackpot{background:#d4ead4}"
-        "details.drawer{border:1px solid #bbb;margin:.5rem 0;padding:.4rem .6rem}"
-        "summary{cursor:pointer;font-weight:600}"
-        "table{border-collapse:collapse;width:100%}"
-        "th,td{border:1px solid #ccc;padding:.25rem .4rem;text-align:left}"
+        "html,body{background:#0c0b09;color:#e6dcc8;margin:0;padding:0}"
+        "body{font:16px/1.45 Georgia,serif;max-width:56rem;margin:0 auto;padding:1.2rem 1rem 2rem}"
+        "a{color:#c4a35a}"
+        ".plaque{border:1px solid #c4a35a;background:#16130f;padding:.7rem 1rem;margin:0 0 1.2rem;"
+        "text-align:center;letter-spacing:.14em}"
+        ".plaque p{margin:0}"
+        ".officio{font-size:.72rem;color:#a89870;text-transform:uppercase}"
+        ".vanus{font-size:1.15rem;color:#e6dcc8;margin:.15rem 0;font-weight:700}"
+        ".cellmark{font-size:.8rem;color:#c4a35a}"
+        "h1,h2{font-weight:600;letter-spacing:.04em}"
+        "h1{font-size:1.25rem;border-bottom:1px solid #3a3428;padding-bottom:.4rem}"
+        ".dalles{display:grid;grid-template-columns:repeat(auto-fill,minmax(10.5rem,1fr));gap:.75rem}"
+        ".dalle{display:flex;flex-direction:column;gap:.35rem;border:1px solid #5c4d28;"
+        "background:#16130f;padding:1.1rem .8rem;text-align:center;text-decoration:none;color:#e6dcc8}"
+        ".dalle:hover{border-color:#c4a35a;background:#1f1a14}"
+        ".dalle-k{font-size:.7rem;color:#a89870;letter-spacing:.12em;text-transform:uppercase}"
+        ".dalle-l{font-size:1.05rem;color:#c4a35a}"
+        ".head{border-bottom:1px solid #3a3428;padding-bottom:.5rem}"
+        ".banner{padding:.5rem .75rem;border:1px solid #5c4d28}"
+        ".banner.alarm{background:#3a1515;border-color:#a33b3b;color:#f0d0d0}"
+        ".banner.jackpot{background:#2a2618;border-color:#c4a35a;color:#f5e6b8}"
+        "details.drawer{border:1px solid #3a3428;background:#14110d;margin:.5rem 0;padding:.4rem .6rem}"
+        "summary{cursor:pointer;font-weight:600;color:#c4a35a}"
+        "table{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.92rem}"
+        "th,td{border:1px solid #3a3428;padding:.25rem .4rem;text-align:left}"
+        "th{background:#1c1812;color:#c4a35a}"
+        ".wait{color:#c4a35a;font-style:italic}"
+        ".evo-chart{margin:.6rem 0 1rem;border:1px solid #3a3428;background:#0a0908;padding:.4rem}"
+        ".evo-chart svg{width:100%;height:auto;display:block}"
+        ".evo-chart .plot{fill:#0a0908}"
+        ".evo-chart .grid line{stroke:#2a261c;stroke-width:1}"
+        ".evo-chart text{fill:#a89870;font:10px/1 sans-serif}"
+        ".legend{margin:.35rem 0 0;font-size:.8rem;color:#a89870}"
+        ".swatch{display:inline-block;width:.7rem;height:.7rem;margin:0 .35rem 0 .7rem;vertical-align:middle}"
         "</style></head><body>"
-        f"{body}"
+        f"{plaque}{body}"
         "<script>"
         "document.querySelectorAll('details.drawer').forEach(function(d){"
         "d.addEventListener('toggle',function(){"

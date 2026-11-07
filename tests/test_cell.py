@@ -234,3 +234,40 @@ def test_run_dump_writes_html(tmp_path):
     assert "Athletic Club" in popup
     assert "pas trouve" in popup
     assert "Evolution" in popup
+
+
+def test_skin_plaque_and_dalles(tmp_path):
+    cell = _load()
+    src = tmp_path / "OUT"
+    _write_out(src)
+    store = cell.load_store(src)
+    home = cell.render_home(store)
+    assert "Officio Assassinorum" in home
+    assert "TEMPLE VANUS" in home
+    assert 'class="dalle"' in home
+    assert "polyline" not in home
+    popup = cell.render_popup(store, KEY)
+    assert "Officio Assassinorum" in popup
+    assert "TEMPLE VANUS" in popup
+    assert "<polyline" in popup
+    assert 'aria-label="evolution"' in popup
+    assert "attente 2e releve" not in popup
+
+
+def test_one_poll_point_waits_second_reading(tmp_path):
+    cell = _load()
+    src = tmp_path / "OUT"
+    _write_out(src)
+    evo = _evo()
+    evo["lines"] = [
+        {
+            "index": "predictlix",
+            "role": "index",
+            "points": [{"at": "2026-11-07T10:00:00Z", "odds": 1.90}],
+        }
+    ]
+    (src / "evolution_one.json").write_text(json.dumps(evo, indent=2) + "\n", encoding="utf-8")
+    html = cell.render_popup(cell.load_store(src), KEY)
+    assert "attente 2e releve" in html
+    assert "<circle" in html
+    assert "<polyline" not in html

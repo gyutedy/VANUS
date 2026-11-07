@@ -24,3 +24,4 @@
 - PHASE-14 : E2E flotte + CI. HTML → slates → matchs → snapshots → evolution/alert → CELL HTML + CIPHER mock. Workflow GitHub pytest only. `harness_ready`.
 - 14 phases closes. Flotte testable hors PA.
 - F00 Vitibet : `vitibet.py` + whitelist GET quicktips today. Un slate par ligue. INDEX + 1/X/2 publics. Pas de spider.
+- F05 skin Temple Vanus : plaque Officio/VANUS/CELL, dalles, SVG evolution (polyline). Un poll = point + attente 2e releve. Pas de son. Source git, pas HTML OUT.

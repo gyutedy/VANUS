@@ -6,3 +6,7 @@
 - `CODEBASE/cell.py` : lit seulement JSON match/evolution/alert (OUT/ARCHIVUM). Menus index → competition → matchs. Popup = 1 match, accordéons (un ouvert), marche defaut 1X2, tiroir vide = « pas trouve ».
 - `CODEBASE/run.py` : dump HTML dans OUT. `--serve` = HTTP local, zero fetch sortant.
 - Pas de calcul. Pas d'import F00–F04. Pas CIPHER. Pas TARIEL.
+
+2026-11-07 — skin Temple Vanus dans cell.py (SVG evolution, pas de son).
+- Plaque Officio / VANUS / CELL. Dalles index. Table + polyline interne.
+- Un poll = point seul + attente 2e releve. Source git, pas les HTML OUT.

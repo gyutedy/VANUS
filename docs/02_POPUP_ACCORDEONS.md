@@ -24,6 +24,13 @@ Le meme marche s'applique a tous les tiroirs, sinon on compare des pommes.
 ## Evolution
 
 - Une ligne PredictLix, une DSP, une MetaPred, Pinnacle en reference si deja la.
-- Points horodates + fleches en v1. Pas de graphe fancy.
+- Table des points + SVG interne (polyline / cercle). Pas de lib, pas de son.
+- Un seul releve = point seul + « attente 2e releve ». Courbe a partir de 2 points.
 - Bandeau : 2 dans le meme sens = alarme ; toutes = jackpot.
 - Absent ≠ vote.
+
+## Skin
+
+- Plaque Officio Assassinorum / TEMPLE VANUS / CELL.
+- Accueil = dalles index, pas une liste nue.
+- Charte sombre (fond #0c0b09, or #c4a35a). HTML genere par `cell.py`. Pas de HTML OUT dans git.
