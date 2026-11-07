@@ -22,3 +22,10 @@
 - Today only : slug `DD-MM-YYYY` hors `slate_date` ignore. Blocs Demain/Hier ignores.
 - Ligues vues dans la fixture : Premier League, La Liga. Chemin whitelist : `https://metapred.com/fr/pronostic/aujourd-hui`.
 - Pas FootInsights, pas BeSoccer, pas runner multi-index.
+
+2026-11-07 — PHASE-05 FootInsights.
+- `CODEBASE/footinsights.py` : parse HTML public (fixture locale) → `vanus.slate.v1`, un slate par competition.
+- Tips collables (home/away/kickoff) → lignes match. Tip locked → pick/odds nuls, match conserve.
+- Articles blog → `parse_blog_refs` slugs seulement. Pas de copie markdown (F02).
+- Ligues vues dans la fixture : Premier League, La Liga. Chemin whitelist : `https://footinsights.com/predictions/`.
+- Pas BeSoccer, pas runner multi-index.

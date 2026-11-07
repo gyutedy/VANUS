@@ -8,6 +8,8 @@ from pathlib import Path
 
 from dailysportpick import parse_html as parse_dsp
 from dailysportpick import parse_slates as parse_dsp_slates
+from footinsights import parse_html as parse_fi
+from footinsights import parse_slates as parse_fi_slates
 from metapred import parse_html as parse_mp
 from metapred import parse_slates as parse_mp_slates
 from predictlix import parse_html as parse_plx
@@ -19,10 +21,12 @@ PARSERS = {
     "predictlix": parse_plx,
     "dailysportpick": parse_dsp,
     "metapred": parse_mp,
+    "footinsights": parse_fi,
 }
 MULTI = {
     "dailysportpick": parse_dsp_slates,
     "metapred": parse_mp_slates,
+    "footinsights": parse_fi_slates,
 }
 
 
@@ -51,7 +55,7 @@ def _file_slug(text: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="F00 — HTML local → schema_slate.json")
     parser.add_argument("--html", required=True, help="chemin vers une fixture HTML")
-    parser.add_argument("--index", default=None, help="predictlix | dailysportpick | metapred")
+    parser.add_argument("--index", default=None, help="predictlix | dailysportpick | metapred | footinsights")
     parser.add_argument("--out", default=str(OUT_DIR), help="dossier OUT")
     parser.add_argument("--competition", default=None)
     parser.add_argument("--slate-date", default=None)
@@ -102,6 +106,8 @@ def _guess_index(name: str) -> str:
         return "dailysportpick"
     if "metapred" in lower:
         return "metapred"
+    if "footinsights" in lower:
+        return "footinsights"
     return "predictlix"
 
 

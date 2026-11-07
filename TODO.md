@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-04 MetaPred done (2026-11-07).
+Priorise. PHASE-05 FootInsights done (2026-11-07).
 
 ---
 
@@ -21,7 +21,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-02 F00 PredictLix
 - [x] PHASE-03 F00 DailySportPick
 - [x] PHASE-04 F00 MetaPred
-- [ ] PHASE-05 F00 FootInsights
+- [x] PHASE-05 F00 FootInsights
 - [ ] PHASE-06 F00 BeSoccer + runner
 - [ ] PHASE-07 F01 SCRYER
 - [ ] PHASE-08 F02 snapshots + export
@@ -38,7 +38,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PredictLix : page today, par competition, unite = match (fixture locale)
 - [x] DailySportPick (fixture locale, OUT separe par index)
 - [x] MetaPred (fixture locale, today only, par competition)
-- [ ] FootInsights (blog + tips)
+- [x] FootInsights (blog + tips)
 - [ ] BeSoccer : tentative GET honnete ; 406 = skip, log, pas de retry deguise
 - [ ] Delai inter-sites, User-Agent clair, robots.txt
 - [ ] Whitelist ligues dans `F00_INFOCYTE/IN/`
