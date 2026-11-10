@@ -7,11 +7,12 @@
 
 ## DERNIERE MISE A JOUR
 
-**Date** : 2026-11-07
-**Etat** : PHASE-14 done. F01 collage live 2e run : PL Fulham–Newcastle n=4, Leeds–Tottenham n=3. Flotte testable hors PA. `liber_vanus.json` = `harness_ready`. Greffe = `CONTRACTS/` + `F03_SPECULUM/OUT/`.
+**Date** : 2026-11-10
+**Etat** : PHASE-14 done. Plan SIGNAL pose (PHASE-15 a 17). **Aucun code SIGNAL encore.** Prochaine session = PHASE-15 seulement.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
-**Plan** : `docs/05_IMPLEMENTATION.md` — une phase par session, puis STOP.
+**Plan 01-14** : `docs/05_IMPLEMENTATION.md`
+**Plan 15-17** : `docs/06_SIGNAL.md` — une phase par session, puis STOP.
 
 ---
 
@@ -30,8 +31,8 @@
 - `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `besoccer.py` + `vitibet.py` + `run.py` + `runner.py`
 - `F01_SCRYER/CODEBASE/scryer.py` + `run.py` (cle composite, aliases.json auto, fuzzy seuil 0.90)
 - `F02_MNEMOS/CODEBASE/mnemos.py` + `blogs.py` + `run.py` (snapshots, export JSON/CSV, copie blogs)
-- `F03_SPECULUM/CODEBASE/speculum.py` + `run.py` (evolution + alertes, fingerprint)
-- `F05_CELL/CODEBASE/cell.py` + `run.py` (menus index/competition, popup accordéons)
+- `F03_SPECULUM/CODEBASE/speculum.py` + `run.py` (evolution + alertes, fingerprint). Pas encore `signals_export.py`.
+- `F05_CELL/CODEBASE/cell.py` + `run.py` (menus, popup, skin Temple Vanus, SVG evolution)
 - `F04_CIPHER/CODEBASE/cipher.py` + `run.py` (Telegram, fingerprint, token env)
 - `TARIEL/CODEBASE/tariel.py` + `gates.py` + `run.py` (poll, subprocess, portes)
 - `PA/pa_task.py` + `PA/pa_web.py` (un reveil ; WSGI → F05)
@@ -61,20 +62,17 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-14 phases closes. Hors session : operer sur PythonAnywhere. Ne pas reouvrir une phase sans besoin.
+14 phases closes. Chantier SIGNAL ouvert. **PHASE-15 en premier**, puis STOP.
 
-Ordre impose, une frégate a la fois :
+Ordre impose (`docs/06_SIGNAL.md`) :
 
-1. `CONTRACTS/` — ne plus les bouger sans version
-2. F00 INFOCYTE — **fait** (PredictLix, DSP, MetaPred, FootInsights, BeSoccer, Vitibet + runner)
-3. F01 SCRYER — **fait** (cle composite, alias auto, tiroir vide)
-4. F02 MNEMOS — **fait** (snapshots + export + blogs)
-5. F03 SPECULUM — **fait** (evolution + alertes)
-6. F05 CELL — **fait** (menus + popup, lit OUT seulement)
-7. F04 CIPHER — **fait** (Telegram, fingerprint, token env)
-8. TARIEL + `PA/` — **fait** (poll, pa_task, pa_web)
+1. PHASE-15 — `CONTRACTS/schema_signal.json` + golden + `test_contracts` — **a faire**
+2. PHASE-16 — `F03_SPECULUM/CODEBASE/signals_export.py` + `tests/test_signal.py` — pas encore
+3. PHASE-17 — `--signal-out` dans `run.py` / commande F03 TARIEL + docs PA + E2E — pas encore
 
-Ne pas commencer par la preview. CELL ne calcule rien.
+Coller le code du cahier 2026-11-09. Ne pas inventer. Ne pas toucher F00–F02, F04, F05, CIPHER. Ne pas coder PARI ici.
+
+Ne pas commencer par TARIEL. CELL ne calcule rien.
 
 ## 5. OU SONT LES TROUS
 
@@ -86,6 +84,7 @@ Ne pas commencer par la preview. CELL ne calcule rien.
 | Alias | `docs/03_ALIAS.md` |
 | Alertes | `docs/04_ALERTES_TELEGRAM.md` |
 | 14 phases | `docs/05_IMPLEMENTATION.md` |
+| SIGNAL 15-17 | `docs/06_SIGNAL.md` |
 
 ---
 

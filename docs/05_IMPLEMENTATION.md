@@ -128,4 +128,16 @@ Pipeline fixtures : HTML → slates → matchs → snapshots → evolution/alert
 
 **Docs :** GUIDE_UTILISATION commandes reelles ; `liber_vanus.json` status `harness_ready` ; CONTINUATION = code autorise, flotte testable hors PA.
 
-**Exit :** `pytest` vert hors reseau ; greffe = `CONTRACTS/` + `F03_SPECULUM/OUT/`.
+**Exit :** `pytest` vert hors reseau ; greffe CELL/CIPHER = `CONTRACTS/` + `F03_SPECULUM/OUT/`.
+
+---
+
+## PHASE-15 a 17 — SIGNAL
+
+Le chantier n'est plus dans ce fichier. Source de verite : `docs/06_SIGNAL.md`.
+
+- 15 contrat `vanus.signal.v1`
+- 16 `signals_export.py`
+- 17 branchement F03/TARIEL + publication PA
+
+Meme discipline : une phase, pytest, docs, commit, push, STOP.

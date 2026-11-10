@@ -87,6 +87,7 @@ CI GitHub : pytest only (pas de cron de capture).
 | `TRACKING/` | Journaux |
 | `docs/` | Guides numerotes |
 | `docs/05_IMPLEMENTATION.md` | 14 phases, une par session |
+| `docs/06_SIGNAL.md` | PHASE-15 a 17 : export `vanus.signal.v1` |
 | `VANUS_CUSTOS.py` | Seul ecrivain de `liber_vanus.json` |
 
 Tests : `python3 -m pytest` (fixtures locales, pas de reseau).
