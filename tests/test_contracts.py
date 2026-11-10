@@ -9,6 +9,7 @@ SCHEMAS = (
     "schema_evolution.json",
     "schema_alert.json",
     "schema_blog.json",
+    "schema_signal.json",
 )
 
 GOLDEN = (
@@ -18,6 +19,7 @@ GOLDEN = (
     ("evolution.json", "schema_evolution.json"),
     ("alert.json", "schema_alert.json"),
     ("blog.json", "schema_blog.json"),
+    ("signal.json", "schema_signal.json"),
 )
 
 

@@ -107,6 +107,8 @@ python3 -m pytest -q
 
 Schema valide. Golden passe. Zero `signals_export.py`. Commit `phase-15: contrat vanus.signal.v1`. Push. STOP.
 
+**Etat 2026-11-10 : DONE.**
+
 ---
 
 ## PHASE-16 — `signals_export.py`

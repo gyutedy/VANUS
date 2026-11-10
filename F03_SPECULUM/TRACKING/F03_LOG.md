@@ -7,3 +7,7 @@
 - `CODEBASE/run.py` : IN snapshots → OUT evolution + alert si consensus. Fingerprints dans `alert_seen.json`.
 - 2 sources meme sens = `alarm`. Toutes les trouvees = `jackpot`. Absent ≠ vote. Meme fingerprint = pas de 2e alerte. 2→tous = nouvelle alerte.
 - Pas CELL. Pas CIPHER. Pas Telegram.
+
+2026-11-10 — PHASE-15 contrat `vanus.signal.v1`.
+- `CONTRACTS/schema_signal.json` colle du cahier B.2. Golden `tests/fixtures/json/signal.json`.
+- Pas de `signals_export.py`. Pas de branchement `run.py` / TARIEL.

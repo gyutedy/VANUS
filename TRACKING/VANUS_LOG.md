@@ -26,3 +26,4 @@
 - F00 Vitibet : `vitibet.py` + whitelist GET quicktips today. Un slate par ligue. INDEX + 1/X/2 publics. Pas de spider.
 - F05 skin Temple Vanus : plaque Officio/VANUS/CELL, dalles, SVG evolution (polyline). Un poll = point + attente 2e releve. Pas de son. Source git, pas HTML OUT.
 - 2026-11-10 : plan SIGNAL (`docs/06_SIGNAL.md`) PHASE-15 a 17. Cahier B coller-tel-quel. Pas de code metier encore. PARI hors scope. Prochaine session = PHASE-15 contrat.
+- PHASE-15 : `CONTRACTS/schema_signal.json` + golden `signal.json` + `test_contracts`. Pas `signals_export.py`. Prochaine = PHASE-16.

@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-10
-**Etat** : PHASE-14 done. Plan SIGNAL pose (PHASE-15 a 17). **Aucun code SIGNAL encore.** Prochaine session = PHASE-15 seulement.
+**Etat** : PHASE-15 done. Contrat `vanus.signal.v1` + golden. Pas de `signals_export.py`. Prochaine session = PHASE-16 seulement.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan 01-14** : `docs/05_IMPLEMENTATION.md`
@@ -66,8 +66,8 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 Ordre impose (`docs/06_SIGNAL.md`) :
 
-1. PHASE-15 — `CONTRACTS/schema_signal.json` + golden + `test_contracts` — **a faire**
-2. PHASE-16 — `F03_SPECULUM/CODEBASE/signals_export.py` + `tests/test_signal.py` — pas encore
+1. PHASE-15 — `CONTRACTS/schema_signal.json` + golden + `test_contracts` — **fait**
+2. PHASE-16 — `F03_SPECULUM/CODEBASE/signals_export.py` + `tests/test_signal.py` — **a faire**
 3. PHASE-17 — `--signal-out` dans `run.py` / commande F03 TARIEL + docs PA + E2E — pas encore
 
 Coller le code du cahier 2026-11-09. Ne pas inventer. Ne pas toucher F00–F02, F04, F05, CIPHER. Ne pas coder PARI ici.

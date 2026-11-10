@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vanus.local/contracts/schema_signal.json",
+  "title": "VANUS signal — export agrege pour greffe externe",
+  "description": "Un match = une entree. Marches en champs. Absent = null, jamais 0. Une observation reste une observation : ce fichier n'est PAS une probabilite.",
+  "type": "object",
+  "required": ["contract", "generated_at", "slate_date", "matches"],
+  "properties": {
+    "contract": { "const": "vanus.signal.v1" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "slate_date": { "type": "string", "format": "date" },
+    "indexes_vus": {
+      "type": "array",
+      "items": { "type": "string",
+        "enum": ["predictlix", "dailysportpick", "metapred", "footinsights", "besoccer", "vitibet"] }
+    },
+    "matches": {
+      "type": "object",
+      "description": "Cle = match_key VANUS (alnum minuscule, triee, sous la forme home_away_YYYY-MM-DD).",
+      "additionalProperties": { "$ref": "#/definitions/match" }
+    },
+    "holes": { "type": "array", "items": { "type": "string" } }
+  },
+  "definitions": {
+    "match": {
+      "type": "object",
+      "required": ["match_key", "competition", "home", "away", "kickoff", "indexes"],
+      "properties": {
+        "match_key": { "type": "string" },
+        "competition": { "type": "string" },
+        "home": { "type": "string" },
+        "away": { "type": "string" },
+        "kickoff": { "type": "string", "format": "date-time" },
+        "indexes": {
+          "type": "object",
+          "description": "Un champ par index. null = index muet sur ce match, jamais une absence de vote.",
+          "additionalProperties": {
+            "type": ["object", "null"],
+            "properties": {
+              "pick": { "type": ["string", "null"],
+                "enum": ["home", "draw", "away", "over_2_5", "under_2_5", "btts_yes", "btts_no", null] },
+              "model_pct": { "type": ["number", "null"] },
+              "at": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "consensus": {
+          "type": "object",
+          "description": "2 index alignes = alarme. Tous = jackpot. Absent ne vote pas.",
+          "properties": {
+            "selection": { "type": ["string", "null"] },
+            "n": { "type": "integer", "minimum": 0 },
+            "found": { "type": "integer", "minimum": 0 },
+            "niveau": { "type": "string", "enum": ["aucun", "isole", "alarme", "jackpot", null] },
+            "agreeing": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "marches": {
+          "type": "object",
+          "description": "Cotes par marche et par issue. La ouverture et la cloture sont des champs distincts et horodates.",
+          "properties": {
+            "1x2": { "$ref": "#/definitions/triplet" },
+            "ou_2_5": { "$ref": "#/definitions/paire" },
+            "btts": { "$ref": "#/definitions/paire" },
+            "mt": { "$ref": "#/definitions/triplet" }
+          }
+        },
+        "reference": {
+          "type": "object",
+          "description": "Pinnacle seulement si un index la montre deja. Jamais cherchee. Jamais scrapee.",
+          "properties": {
+            "sharp": { "type": ["number", "null"] },
+            "sharp_issue": { "type": ["string", "null"] },
+            "sharp_marche": { "type": ["string", "null"] },
+            "source": { "type": ["string", "null"] },
+            "at": { "type": ["string", "null"] }
+          }
+        },
+        "couverture": {
+          "type": "object",
+          "description": "Qui a parle, qui s'est tu. Un silence n'est pas un vote.",
+          "properties": {
+            "n_index": { "type": "integer" },
+            "n_presents": { "type": "integer" },
+            "n_marches": { "type": "integer" },
+            "niveaux": { "type": "string", "enum": ["faible", "moyenne", "haute"] }
+          }
+        },
+        "holes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "paire": {
+      "type": "object",
+      "properties": {
+        "ouvert": { "type": ["number", "null"] },
+        "cloture": { "type": ["number", "null"] },
+        "at_ouverture": { "type": ["string", "null"] },
+        "at_cloture": { "type": ["string", "null"] },
+        "n_points": { "type": "integer" }
+      }
+    },
+    "triplet": {
+      "type": "object",
+      "properties": {
+        "ouvert": { "type": ["object", "null"], "additionalProperties": true },
+        "cloture": { "type": ["object", "null"], "additionalProperties": true },
+        "at_ouverture": { "type": ["string", "null"] },
+        "at_cloture": { "type": ["string", "null"] },
+        "n_points": { "type": "integer" }
+      }
+    }
+  }
+}
