@@ -177,6 +177,8 @@ Les `evolution_*.json` / `alert_*.json` ne changent pas (fichier non touche : `s
 
 Tous les cas signal verts. Suite pytest verte. `run.py` et `tariel.py` **non modifies**. Commit `phase-16: signals_export vanus.signal.v1`. Push. STOP.
 
+**Etat 2026-11-10 : DONE.**
+
 ---
 
 ## PHASE-17 — Branchement + publication

@@ -11,3 +11,8 @@
 2026-11-10 — PHASE-15 contrat `vanus.signal.v1`.
 - `CONTRACTS/schema_signal.json` colle du cahier B.2. Golden `tests/fixtures/json/signal.json`.
 - Pas de `signals_export.py`. Pas de branchement `run.py` / TARIEL.
+
+2026-11-10 — PHASE-16 `signals_export.py`.
+- Collage cahier B.2. CLI autonome `--in` snapshots `--out` SHARED/OUT/signals.
+- `tests/test_signal.py` : muet=null, isole/alarme, Pinnacle si deja la, ouvert/cloture, ecriture atomique.
+- `run.py` et TARIEL non touches.

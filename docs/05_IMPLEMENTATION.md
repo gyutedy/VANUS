@@ -137,7 +137,7 @@ Pipeline fixtures : HTML → slates → matchs → snapshots → evolution/alert
 Le chantier n'est plus dans ce fichier. Source de verite : `docs/06_SIGNAL.md`.
 
 - 15 contrat `vanus.signal.v1` — **done** 2026-11-10
-- 16 `signals_export.py`
+- 16 `signals_export.py` — **done** 2026-11-10
 - 17 branchement F03/TARIEL + publication PA
 
 Meme discipline : une phase, pytest, docs, commit, push, STOP.

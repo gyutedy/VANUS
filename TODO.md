@@ -1,6 +1,6 @@
 # TODO — VANUS
 
-Priorise. PHASE-15 contrat `vanus.signal.v1` done (2026-11-10). Prochaine = PHASE-16.
+Priorise. PHASE-16 `signals_export.py` done (2026-11-10). Prochaine = PHASE-17.
 
 ---
 
@@ -33,7 +33,7 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 - [x] PHASE-13 TARIEL + PA
 - [x] PHASE-14 E2E + CI pytest
 - [x] PHASE-15 contrat `vanus.signal.v1`
-- [ ] PHASE-16 `signals_export.py`
+- [x] PHASE-16 `signals_export.py`
 - [ ] PHASE-17 branchement poll + publication PA
 
 ## P1 — F00 INFOCYTE (PHASE-02 a 06)
@@ -85,8 +85,8 @@ Voir `docs/05_IMPLEMENTATION.md`. Ne pas enchainer.
 Voir `docs/06_SIGNAL.md`. Une session = une phase. Code a coller, pas a reinventer.
 
 - [x] `CONTRACTS/schema_signal.json` + fixture golden
-- [ ] `F03_SPECULUM/CODEBASE/signals_export.py` (pas `signal.py`)
-- [ ] `tests/test_signal.py` (pytest)
+- [x] `F03_SPECULUM/CODEBASE/signals_export.py` (pas `signal.py`)
+- [x] `tests/test_signal.py` (pytest)
 - [ ] `--signal-out` dans F03 `run.py` et commande TARIEL F03
 - [ ] `SHARED/OUT/signals/` + section GUIDE PA static `/signals/`
 - [ ] E2E valide `latest.json` contre le schema
