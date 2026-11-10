@@ -22,7 +22,7 @@ TARIEL           orchestre, ne calcule pas
 PA               nerf PythonAnywhere (tache planifiee + WSGI)
 ```
 
-Un autre projet n'a pas besoin de VANUS entier. Il lit `CONTRACTS/` + `F03_SPECULUM/OUT/`.
+Un autre projet n'a pas besoin de VANUS entier. Il lit `CONTRACTS/` + `SHARED/OUT/signals/latest.json`.
 
 ---
 
@@ -33,7 +33,7 @@ Un autre projet n'a pas besoin de VANUS entier. Il lit `CONTRACTS/` + `F03_SPECU
 | F00 | INFOCYTE | Capture des index, 1 module / site | `schema_slate.json` |
 | F01 | SCRYER | Cle match, alias auto, pas d'ecran manuel | `schema_match.json` |
 | F02 | MNEMOS | Snapshots, blogs, export JSON/CSV | snapshots + `schema_blog.json` |
-| F03 | SPECULUM | Evolution 10h→12h→14h, consensus, Pinnacle-si-la | `schema_evolution.json` + `schema_alert.json` |
+| F03 | SPECULUM | Evolution 10h→12h→14h, consensus, Pinnacle-si-la | `schema_evolution.json` + `schema_alert.json` + `schema_signal.json` |
 | F04 | CIPHER | Telegram | message alerte / jackpot |
 | F05 | CELL | Preview : ligues, slate, popup | HTML, lit seulement OUT/ARCHIVUM |
 | — | TARIEL | Poll delai reglable, jusqu'au KO | — |
@@ -69,7 +69,7 @@ CI GitHub : pytest only (pas de cron de capture).
 
 | On emporte | On laisse |
 |---|---|
-| `CONTRACTS/` + `F03_SPECULUM/OUT/` | F05 si pas d'ecran |
+| `CONTRACTS/` + `SHARED/OUT/signals/` | F05 si pas d'ecran |
 | `F00_INFOCYTE/` si on change de sources | `PA/` si autre hote |
 | Le repo entier | Rien de Perturabo (il n'y en a pas) |
 

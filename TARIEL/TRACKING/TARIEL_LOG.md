@@ -5,3 +5,5 @@
 - `CODEBASE/gates.py` : portes lecture / alerte. Ne parse pas.
 - `CODEBASE/run.py` : `--once` une passe ; sinon boucle.
 - Pas HTML. Pas d'import F00–F05.
+
+2026-11-10 — PHASE-17 : commande F03 recoit `--signal-out SHARED/OUT/signals`. LECTURE_STEPS inchange. Export ne notifie pas.

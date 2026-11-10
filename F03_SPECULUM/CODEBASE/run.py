@@ -29,6 +29,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--seen", default=None, help="fichier fingerprints deja emis")
     parser.add_argument("--market", default=DEFAULT_MARKET)
     parser.add_argument("--selection", default=DEFAULT_SELECTION)
+    parser.add_argument(
+        "--signal-out",
+        default=str(FRIGATE.parent / "SHARED" / "OUT" / "signals"),
+        help="export vanus.signal.v1 (vide pour desactiver)",
+    )
     args = parser.parse_args(argv)
 
     src = Path(args.src)
@@ -47,6 +52,12 @@ def main(argv: list[str] | None = None) -> int:
         if alert is not None:
             written.append(write_json(alert, out_dir / f"alert_{slug}.json"))
     save_seen(seen, seen_path)
+    if args.signal_out:
+        import signals_export as _sigx
+
+        snaps = load_snapshots(src)
+        blob, _w = _sigx.aggregate(snaps, Path(args.signal_out))
+        print(f"[SIGNAL] {len(blob['matches'])} match(s) -> {args.signal_out}")
     if written:
         print("\n".join(str(path) for path in written))
     return 0

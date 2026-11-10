@@ -16,3 +16,7 @@
 - Collage cahier B.2. CLI autonome `--in` snapshots `--out` SHARED/OUT/signals.
 - `tests/test_signal.py` : muet=null, isole/alarme, Pinnacle si deja la, ouvert/cloture, ecriture atomique.
 - `run.py` et TARIEL non touches.
+
+2026-11-10 — PHASE-17 branchement `--signal-out`.
+- `run.py` : apres evolution/alert, `signals_export.aggregate` → `SHARED/OUT/signals`.
+- TARIEL : meme etape F03, flag `--signal-out`. Pas d'etape separee. Pas dans ALERTE_STEPS.

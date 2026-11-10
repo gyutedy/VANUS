@@ -28,3 +28,4 @@
 - 2026-11-10 : plan SIGNAL (`docs/06_SIGNAL.md`) PHASE-15 a 17. Cahier B coller-tel-quel. Pas de code metier encore. PARI hors scope. Prochaine session = PHASE-15 contrat.
 - PHASE-15 : `CONTRACTS/schema_signal.json` + golden `signal.json` + `test_contracts`. Pas `signals_export.py`. Prochaine = PHASE-16.
 - PHASE-16 : `signals_export.py` + `tests/test_signal.py`. run.py / TARIEL intacts. Prochaine = PHASE-17.
+- PHASE-17 : `--signal-out` F03/TARIEL, E2E `latest.json`, docs PA `/signals/`. SIGNAL 15-17 closes.

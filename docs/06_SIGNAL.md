@@ -293,6 +293,8 @@ ls -la SHARED/OUT/signals/
 
 Pytest vert. Commit `phase-17: poll F03 exporte vanus.signal.v1`. Push. STOP.
 
+**Etat 2026-11-10 : DONE.**
+
 ---
 
 ## Hors VANUS (ne pas coder ici)

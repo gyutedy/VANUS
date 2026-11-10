@@ -53,6 +53,33 @@ python3 F04_CIPHER/CODEBASE/run.py --in F03_SPECULUM/OUT --out F04_CIPHER/OUT
 
 `ARCHIVUM/exports/` — JSON / CSV pour tes calculs **sur ta copie**. Pas de re-scrape pour calculer.
 
+## 5b. Publier le signal pour un autre projet
+
+L'export est ecrit a chaque poll dans `SHARED/OUT/signals/` :
+
+    SHARED/OUT/signals/latest.json          vue courante, tous matchs
+    SHARED/OUT/signals/signals_YYYY-MM-DD.json   archive du jour
+
+Sur PythonAnywhere, exposer le dossier en statique :
+
+  Web -> Static files
+    URL  : /signals/
+    Path : /home/<user>/VANUS/SHARED/OUT/signals
+
+L'URL a donner au consommateur est donc :
+
+  https://<user>.pythonanywhere.com/signals/latest.json
+
+Verification depuis n'importe ou :
+
+  curl -s https://<user>.pythonanywhere.com/signals/latest.json | head -30
+
+Le fichier ne contient aucune donnee privee : ce sont des cotes publiques
+deja affichees sur six sites publics. Aucun jeton. Aucun compte.
+
+Si un index n'a pas parle sur un match, son champ vaut `null`. C'est
+volontaire : `absent != consensus` (VERBUM VII, HERESIE #15).
+
 ## 6. Ce que tu ne fais pas
 
 - Relier les alias a la main.
@@ -64,4 +91,4 @@ python3 F04_CIPHER/CODEBASE/run.py --in F03_SPECULUM/OUT --out F04_CIPHER/OUT
 
 Lire `CONTINUATION.md`, puis `TODO.md`.
 
-Greffe : `CONTRACTS/` + `F03_SPECULUM/OUT/`.
+Greffe : `CONTRACTS/` + `SHARED/OUT/signals/`. CELL/CIPHER lisent encore `F03_SPECULUM/OUT/`.

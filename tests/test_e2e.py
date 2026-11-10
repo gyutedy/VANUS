@@ -170,9 +170,19 @@ def test_e2e_html_to_cell_and_cipher(tmp_path):
     snaps_json = [d for d in _jsons(f02_out) if d.get("match_key") and isinstance(d.get("points"), list)]
     assert snaps_json
 
+    sig_out = tmp_path / "signals"
     _run(
         REPO / "F03_SPECULUM" / "CODEBASE",
-        ["--in", str(f02_out), "--out", str(f03_out), "--seen", str(tmp_path / "alert_seen.json")],
+        [
+            "--in",
+            str(f02_out),
+            "--out",
+            str(f03_out),
+            "--seen",
+            str(tmp_path / "alert_seen.json"),
+            "--signal-out",
+            str(sig_out),
+        ],
     )
     evos = [d for d in _jsons(f03_out) if d.get("contract") == "vanus.evolution.v1"]
     alerts = [d for d in _jsons(f03_out) if d.get("contract") == "vanus.alert.v1"]
@@ -182,6 +192,10 @@ def test_e2e_html_to_cell_and_cipher(tmp_path):
     assert alerts
     for alert in alerts:
         validate_instance(alert, "schema_alert.json")
+    latest = json.loads((sig_out / "latest.json").read_text(encoding="utf-8"))
+    validate_instance(latest, "schema_signal.json")
+    assert latest["contract"] == "vanus.signal.v1"
+    assert latest.get("generated_at")
 
     for src in (f01_out, f03_out):
         for path in src.glob("*.json"):

@@ -114,6 +114,9 @@
 **/.secrets/
 **/secrets/
 
+# VANUS signal export (generated)
+SHARED/OUT/signals/*.json
+
 # Temporary files
 *.tmp
 *.temp

@@ -8,7 +8,7 @@
 ## DERNIERE MISE A JOUR
 
 **Date** : 2026-11-10
-**Etat** : PHASE-16 done. `signals_export.py` + `tests/test_signal.py`. `run.py` / TARIEL non touches. Prochaine session = PHASE-17 seulement.
+**Etat** : PHASE-17 done. F03 poll exporte `vanus.signal.v1` dans `SHARED/OUT/signals/`. Hors session : static PA `/signals/`. Ne pas reouvrir une phase sans besoin.
 **Runtime cible** : PythonAnywhere (pas GitHub Actions).
 **Repo** : https://github.com/gyutedy/VANUS — public, seul, greffable. Pas lie a Perturabo.
 **Plan 01-14** : `docs/05_IMPLEMENTATION.md`
@@ -25,13 +25,13 @@
 - Whitelist sources dans `ARCHIVUM/rules/whitelist_sources.md`
 - `TODO.md` : chantier priorise
 - `GUIDE_UTILISATION.md` : ce que l'operateur fera sur PythonAnywhere
-- Guides `docs/01` a `docs/05`
+- Guides `docs/01` a `docs/06`
 - `VANUS_CUSTOS.py` (seul a ecrire `liber_vanus.json`)
 - `pytest` + fixtures JSON golden + HTML PredictLix + DSP + MetaPred + FootInsights + BeSoccer + Vitibet (`tests/`)
 - `F00_INFOCYTE/CODEBASE/predictlix.py` + `dailysportpick.py` + `metapred.py` + `footinsights.py` + `besoccer.py` + `vitibet.py` + `run.py` + `runner.py`
 - `F01_SCRYER/CODEBASE/scryer.py` + `run.py` (cle composite, aliases.json auto, fuzzy seuil 0.90)
 - `F02_MNEMOS/CODEBASE/mnemos.py` + `blogs.py` + `run.py` (snapshots, export JSON/CSV, copie blogs)
-- `F03_SPECULUM/CODEBASE/speculum.py` + `run.py` (evolution + alertes, fingerprint) + `signals_export.py` (pas encore branche)
+- `F03_SPECULUM/CODEBASE/speculum.py` + `run.py` (evolution + alertes + `--signal-out`) + `signals_export.py`
 - `F05_CELL/CODEBASE/cell.py` + `run.py` (menus, popup, skin Temple Vanus, SVG evolution)
 - `F04_CIPHER/CODEBASE/cipher.py` + `run.py` (Telegram, fingerprint, token env)
 - `TARIEL/CODEBASE/tariel.py` + `gates.py` + `run.py` (poll, subprocess, portes)
@@ -62,17 +62,15 @@ Voir `VERBUM.md` et `HERESIE.md`. Resume :
 
 ## 4. PROCHAINE ETAPE
 
-14 phases closes. Chantier SIGNAL ouvert. **PHASE-15 en premier**, puis STOP.
+17 phases closes (14 + SIGNAL 15-17). Hors session : exposer `SHARED/OUT/signals/` en static PA. Ne pas reouvrir une phase sans besoin.
 
 Ordre impose (`docs/06_SIGNAL.md`) :
 
 1. PHASE-15 — `CONTRACTS/schema_signal.json` + golden + `test_contracts` — **fait**
 2. PHASE-16 — `F03_SPECULUM/CODEBASE/signals_export.py` + `tests/test_signal.py` — **fait**
-3. PHASE-17 — `--signal-out` dans `run.py` / commande F03 TARIEL + docs PA + E2E — **a faire**
+3. PHASE-17 — `--signal-out` dans `run.py` / commande F03 TARIEL + docs PA + E2E — **fait**
 
-Coller le code du cahier 2026-11-09. Ne pas inventer. Ne pas toucher F00–F02, F04, F05, CIPHER. Ne pas coder PARI ici.
-
-Ne pas commencer par TARIEL. CELL ne calcule rien.
+PARI (`vanus_fetch`, Dixon-Coles) = autre depot. CELL ne calcule rien.
 
 ## 5. OU SONT LES TROUS
 

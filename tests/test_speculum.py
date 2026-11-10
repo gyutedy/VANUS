@@ -238,6 +238,8 @@ def test_run_writes_evolution_and_alert(tmp_path):
         str(out),
         "--seen",
         str(tmp_path / "seen.json"),
+        "--signal-out",
+        str(tmp_path / "signals"),
     ]
     proc = subprocess.run(cmd, check=True, capture_output=True, text=True, cwd=str(CODEBASE))
     names = {Path(line).name for line in proc.stdout.strip().splitlines() if line}

@@ -97,6 +97,8 @@ def default_commands(root: Path, now: str, python: str) -> dict[str, list[str]]:
             str(root / "F02_MNEMOS" / "OUT"),
             "--out",
             str(root / "F03_SPECULUM" / "OUT"),
+            "--signal-out",
+            str(root / "SHARED" / "OUT" / "signals"),
         ],
         "F05_CELL": [
             python,

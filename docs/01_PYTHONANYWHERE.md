@@ -13,6 +13,7 @@ VANUS ne tourne pas sur GitHub Actions. Le nerf est `PA/`.
 
 - Always-on = plan payant. Un scheduled task toutes les N minutes suffit.
 - Un process web = la preview.
+- Static files : URL `/signals/` → `SHARED/OUT/signals` (`latest.json` pour greffe).
 - Delai defaut 2 h, reglable, plancher 30 min (`F00_INFOCYTE/IN/sources.json`).
 - Secrets (Telegram, etc.) : env PythonAnywhere, jamais le git.
 
