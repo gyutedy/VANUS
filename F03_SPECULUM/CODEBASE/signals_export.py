@@ -29,6 +29,17 @@ CONTRACT = "vanus.signal.v1"
 INDEX_ORDER = ("predictlix", "dailysportpick", "metapred", "footinsights", "besoccer", "vitibet")
 INDEX_FIELDS = {"1x2": ("home", "draw", "away"), "ou_2_5": ("over_2_5", "under_2_5"),
                 "btts": ("btts_yes", "btts_no"), "mt": ("mt_home", "mt_equal", "mt_away")}
+BASKET_INDEX_ORDER = ("vitibet_basket", "sportsai_basket", "oddspedia_basket")
+BASKET_FIELDS = {"ml": ("home", "away"), "total": ("total_over", "total_under"),
+                 "spread": ("spread_home", "spread_away")}
+BASKET_PICK_WORDS = {
+    "home": "home", "1": "home", "domicile": "home",
+    "away": "away", "2": "away", "exterieur": "away",
+    "over": "total_over", "plus": "total_over", "total_over": "total_over",
+    "under": "total_under", "moins": "total_under", "total_under": "total_under",
+    "spread_home": "spread_home", "handicap": "spread_home",
+    "spread_away": "spread_away",
+}
 PICK_WORDS = {
     "home": "home", "1": "home", "domicile": "home",
     "draw": "draw", "x": "draw", "nul": "draw",
@@ -58,6 +69,16 @@ def canon_pick(raw: Any) -> str | None:
         return PICK_WORDS[key]
     norm = _norm(key)
     return PICK_WORDS.get(norm)
+
+
+def canon_pick_basket(raw: Any) -> str | None:
+    """Pas de nul au basket (prolongation). X = None, jamais un vote."""
+    key = str(raw or "").strip().lower().replace(" ", "")
+    if key in ("x", "draw", "nul", ""):
+        return None
+    if key in BASKET_PICK_WORDS:
+        return BASKET_PICK_WORDS[key]
+    return BASKET_PICK_WORDS.get(_norm(key))
 
 
 def _fnum(raw: Any) -> float | None:
@@ -178,7 +199,8 @@ def _pinnacle(points):
             "source": None, "at": None}
 
 
-def _consensus(picks: dict[str, str | None], presents: list[str]):
+def _consensus(picks: dict[str, str | None], presents: list[str], order=None):
+    order = tuple(order or INDEX_ORDER)
     votes = [v for v in picks.values() if v]
     if not votes:
         return {"selection": None, "n": 0, "found": len(presents),
@@ -192,7 +214,7 @@ def _consensus(picks: dict[str, str | None], presents: list[str]):
         if len(idx) > len(best_idx):
             best_sel, best_idx = sel, idx
     n = len(best_idx)
-    if n >= len(INDEX_ORDER) and len(presents) >= len(INDEX_ORDER):
+    if n >= len(order) and len(presents) >= len(order):
         niveau = "jackpot"
     elif n >= 2:
         niveau = "alarme"
@@ -204,7 +226,7 @@ def _consensus(picks: dict[str, str | None], presents: list[str]):
             "niveau": niveau, "agreeing": sorted(best_idx)}
 
 
-def _couverture(presents: list[str], marches: int):
+def _couverture(presents: list[str], marches: int, order=None):
     n = len(presents)
     if n >= 4 and marches >= 3:
         niveau = "haute"
@@ -212,7 +234,7 @@ def _couverture(presents: list[str], marches: int):
         niveau = "moyenne"
     else:
         niveau = "faible"
-    return {"n_index": len(INDEX_ORDER), "n_presents": n,
+    return {"n_index": len(tuple(order or INDEX_ORDER)), "n_presents": n,
             "n_marches": marches, "niveaux": niveau}
 
 
@@ -289,6 +311,7 @@ def write(blob: dict[str, Any], out_dir: Path, slate: str | None = None) -> list
     target = out_dir / f"signals_{day}.json"
     body = dict(blob)
     body["contract"] = CONTRACT
+    body["sport"] = str(blob.get("sport") or "foot")
     body["generated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     body["slate_date"] = day
     tmp = target.with_suffix(".json.tmp")
@@ -318,7 +341,88 @@ def aggregate(snapshots: list[dict[str, Any]], out_dir: Path, slate: str | None 
         for idx, val in (rec.get("indexes") or {}).items():
             if val:
                 vus.add(idx)
-    blob = {"contract": CONTRACT, "matches": matches,
+    blob = {"contract": CONTRACT, "sport": "foot", "matches": matches,
+            "indexes_vus": sorted(vus), "holes": holes}
+    return blob, write(blob, out_dir, slate=slate)
+
+
+def build_basket(snapshot: dict[str, Any]) -> dict[str, Any]:
+    """Vue basket du meme contrat. 2 index alignes = alarme, 1 = isole.
+    X / nul n'existe pas au basket : canon_pick_basket renvoie None."""
+    key = str(snapshot.get("match_key") or "")
+    home = str(snapshot.get("home") or "")
+    away = str(snapshot.get("away") or "")
+    date = str(snapshot.get("slate_date") or "")[:10]
+    if not key and home and away:
+        key = match_key(home, away, date or None)
+    points = _points(snapshot)
+    holes: list[str] = []
+    per_index: dict[str, list[dict[str, Any]]] = {}
+    for p in points:
+        idx = str(p.get("index") or "")
+        if idx:
+            per_index.setdefault(idx, []).append(p)
+    indexes: dict[str, Any] = {}
+    picks: dict[str, str | None] = {}
+    for idx in BASKET_INDEX_ORDER:
+        pts = per_index.get(idx) or []
+        if not pts:
+            indexes[idx] = None
+            picks[idx] = None
+            continue
+        last = pts[-1]
+        pick = canon_pick_basket(last.get("pick"))
+        if pick is None:
+            pick = canon_pick_basket((last.get("odds") or {}).get("pick"))
+        if pick is None:
+            holes.append("pick_inconnu:" + idx)
+        pct = _fnum(last.get("model_pct"))
+        indexes[idx] = {"pick": pick, "model_pct": pct,
+                        "at": str(last.get("captured_at") or "") or None}
+        picks[idx] = pick
+    presents = [i for i in BASKET_INDEX_ORDER if indexes.get(i)]
+    if not presents:
+        holes.append("aucun_index")
+    marches: dict[str, Any] = {}
+    for marche, keys in BASKET_FIELDS.items():
+        triplet = _triplet(points, marche, keys)
+        if triplet:
+            marches[marche] = triplet
+        else:
+            holes.append("cotes_" + marche)
+    consensus = _consensus(picks, presents, order=BASKET_INDEX_ORDER)
+    return {
+        "match_key": key,
+        "competition": str(snapshot.get("competition") or ""),
+        "home": home,
+        "away": away,
+        "kickoff": str(snapshot.get("kickoff") or ""),
+        "indexes": indexes,
+        "consensus": consensus,
+        "marches": marches,
+        "reference": _pinnacle(points),
+        "couverture": _couverture(presents, len(marches), order=BASKET_INDEX_ORDER),
+        "holes": holes,
+    }
+
+
+def aggregate_basket(snapshots: list[dict[str, Any]], out_dir: Path, slate: str | None = None):
+    """Export basket : SHARED/OUT/signals-basket/latest.json, sport=basket."""
+    matches: dict[str, Any] = {}
+    holes: list[str] = []
+    vus: set[str] = set()
+    for snap in snapshots:
+        if not isinstance(snap, dict):
+            continue
+        rec = build_basket(snap)
+        if not rec.get("match_key"):
+            holes.append("match_key_absent")
+            continue
+        matches[rec["match_key"]] = rec
+        for idx, val in (rec.get("indexes") or {}).items():
+            if val:
+                vus.add(idx)
+    blob = {"contract": CONTRACT, "sport": "basket", "matches": matches,
             "indexes_vus": sorted(vus), "holes": holes}
     return blob, write(blob, out_dir, slate=slate)
 
@@ -327,14 +431,20 @@ def main(argv: list[str] | None = None) -> int:
     here = Path(__file__).resolve().parents[1]
     ap = argparse.ArgumentParser(description="F03 — export vanus.signal.v1")
     ap.add_argument("--in", dest="src", default=str(here.parent / "F02_MNEMOS" / "OUT"))
-    ap.add_argument("--out", default=str(here.parent / "SHARED" / "OUT" / "signals"))
+    default_out = str(here.parent / "SHARED" / "OUT" / "signals")
+    ap.add_argument("--out", default=default_out)
     ap.add_argument("--slate", default=None)
+    ap.add_argument("--basket", action="store_true", help="export basket (sport=basket)")
     args = ap.parse_args(argv)
     src = Path(args.src)
     if not src.exists():
         print(f"missing in: {src}")
         return 2
-    blob, written = aggregate(load_snapshots(src), Path(args.out), slate=args.slate)
+    out = Path(args.out)
+    if args.basket and args.out == default_out:
+        out = here.parent / "SHARED" / "OUT" / "signals-basket"
+    export = aggregate_basket if args.basket else aggregate
+    blob, written = export(load_snapshots(src), out, slate=args.slate)
     print(f"[SIGNAL] {len(blob['matches'])} match(s) — index vus : {blob['indexes_vus']}")
     for path in written:
         print(path)

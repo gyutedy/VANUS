@@ -7,6 +7,7 @@
   "required": ["contract", "generated_at", "slate_date", "matches"],
   "properties": {
     "contract": { "const": "vanus.signal.v1" },
+    "sport": { "type": "string", "enum": ["foot", "basket"], "default": "foot" },
     "generated_at": { "type": "string", "format": "date-time" },
     "slate_date": { "type": "string", "format": "date" },
     "indexes_vus": {
